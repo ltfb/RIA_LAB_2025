@@ -7,32 +7,53 @@
     <!--<link rel="stylesheet" href="css/style.css">-->
 </head>   
 <body>  
-    <h1>Simple Calculator</h1>
-    <div class="calculator">
-        <div class="calc-text">
-            <p name="input-value" id="inputValue">0</p>
-        </div>
-        <div class="calc-keys">   
-            <button type="btn" class="other-operators" data-value="AC">AC</button>
-            <button type="btn" class="other-operators" data-value="DEL">DEL</button>
-            <button type="btn" class="other-operators" data-value="%">%</button>
-            <button type="btn" class="operators" data-value="+">+</button>   
-            <button type="btn" class="operators" data-value="-">-</button>
-            <button type="btn" class="operators" data-value="*">*</button>
-            <button type="btn" class="operators" data-value="/">/</button>
-            <button type="btn" class="operators" data-value=".">.</button>
-            <button type="btn" class="numbers" data-value="0">0</button>
-            <button type="btn" class="operators" id="equals">=</button>
-            <button type="btn" class="numbers" data-value="1">1</button>
-            <button type="btn" class="numbers" data-value="2">2</button>
-            <button type="btn" class="numbers" data-value="3">3</button>
-            <button type="btn" class="numbers" data-value="4">4</button>
-            <button type="btn" class="numbers" data-value="5">5</button>
-            <button type="btn" class="numbers" data-value="6">6</button>
-            <button type="btn" class="numbers" data-value="7">7</button>
-            <button type="btn" class="numbers" data-value="8">8</button>
-            <button type="btn" class="numbers" data-value="9">9</button>
-        </body>
+<table class="calc-keys">
+    <tr>
+        <th colspan="4" id="calcTitle" style="text-align:center;">Simple Calculator</th>
+    </tr>
+    <tr id="tr0" class="calc-text">
+        <td colspan="4" style="text-align:right;">
+            <p name="input-value" id="inputValue" style="margin:0;">0</p>
+        </td>
+    </tr>
+    <tr id="tr1">
+        <td id="tr1_1" type="btn" class="other-operators" data-value="%">%</td>
+        <td id="tr1_2" type="btn" class="other-operators" data-value="AC">AC</td>
+        <td id="tr1_3" type="btn" class="other-operators" data-value="DEL">DEL</td>
+        <td id="tr1_4" type="btn" class="other-operators" data-value="DEL">DEL</td>
+    </tr>
+    <tr id="tr2">
+        <td id="tr2_1" type="btn" class="operators" data-value="1/x">1/x</td>
+        <td id="tr2_2" type="btn" class="operators" data-value="x^2">x²</td>
+        <td id="tr2_3" type="btn" class="operators" data-value="√">√</td>
+        <td id="tr2_4" type="btn" class="operators" data-value="/">/</td>
+    </tr>
+    <tr id="tr3">
+        <td id="tr3_1" type="btn" class="numbers" data-value="7">7</td>
+        <td id="tr3_2" type="btn" class="numbers" data-value="8">8</td>
+        <td id="tr3_3" type="btn" class="numbers" data-value="9">9</td>
+        <td id="tr3_4" type="btn" class="operators" data-value="*">*</td>
+    </tr>
+    <tr id="tr4">
+        <td id="tr4_1" type="btn" class="numbers" data-value="4">4</td>
+        <td id="tr4_2" type="btn" class="numbers" data-value="5">5</td>
+        <td id="tr4_3" type="btn" class="numbers" data-value="6">6</td>
+        <td id="tr4_4" type="btn" class="operators" data-value="-">-</td>
+    </tr>
+    <tr id="tr5">
+        <td id="tr5_1" type="btn" class="numbers" data-value="1">1</td>
+        <td id="tr5_2" type="btn" class="numbers" data-value="2">2</td>
+        <td id="tr5_3" type="btn" class="numbers" data-value="3">3</td>
+        <td id="tr5_4" type="btn" class="operators" data-value="+">+</td>   
+    </tr>
+    <tr id="tr6">
+        <td id="tr6_1" type="btn" class="operators" data-value=".">.</td>
+        <td id="tr6_2" type="btn" class="numbers" data-value="0">0</td>
+        <td id="tr6_3" type="btn" class="operators" data-value="=">=</td>
+        <td id="tr6_4" type="btn" class="operators" data-value="=">=</td>
+    </tr>
+</table>
+</body>
     <script type="text/javascript" src="js/calc.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="js/style.js"></script>

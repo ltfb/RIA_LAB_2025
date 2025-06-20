@@ -15,13 +15,19 @@ document.querySelectorAll(".operators, .other-operators").forEach(function(item)
         } else if (btnValue === "AC") {
             inputValue.innerText = "0";
         } else if (btnValue === "DEL") {
-            inputValue.innerText = expression.slice(0, -1) || "0";
+            if (inputValue.innerText === "Error") // Avoid error message bug
+                inputValue.innerText = "0";
+            else inputValue.innerText = expression.slice(0, -1) || "0";
         } else {
-            if ("+-*/".includes(btnValue) && "+-*/".includes(lastChar)) {
+            if ("+-*/%√".includes(btnValue) && "+-*/%√".includes(lastChar)) {
                 return; // prevent multiple operators
             }
             if (inputValue.innerText === "0") {
                 inputValue.innerText = "";
+            }
+
+            if (btnValue === "√") {
+              inputValue.innerText = Math.sqrt(parseFloat(expression)) || "0";
             }
             inputValue.innerText += btnValue;
         }
