@@ -1,0 +1,200 @@
+/* Estilos base */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #1A1F33;
+    color: white;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+}
+
+.calculator-container {
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.calc-keys {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 5px;
+}
+
+.calc-keys th, .calc-keys td {
+    text-align: center;
+    padding: 15px 0;
+    border-radius: 8px;
+    transition: all 0.2s;
+}
+
+#calcTitle {
+    font-size: 1.5rem;
+    padding: 10px 0;
+    text-align: center;
+}
+
+/* Oculta todos los títulos alternativos por defecto */
+.tablet-title,
+.mobile-title,
+.large-title {
+    display: none;
+}
+
+/* Pantallas grandes (>768px) - Muestra large-title */
+@media (min-width: 769px) {
+    .default-title,
+    .tablet-title,
+    .mobile-title {
+        display: none;
+    }
+    .large-title {
+        display: inline;
+    }
+    
+
+    .calculator-container {
+        max-width: 400px; 
+        transform: scale(0.9); 
+        transform-origin: center;
+    }
+    
+    
+    .calc-keys th, .calc-keys td {
+        padding: 18px 0; 
+        font-size: 1.3rem; 
+    }
+    
+    #calcTitle {
+        font-size: 1.6rem; 
+    }
+    
+    #inputValue {
+        font-size: 2.2rem; 
+    }
+    
+
+    .calc-keys {
+        border-spacing: 4px;
+    }
+}
+
+/* Tablets (501px - 768px) - Muestra tablet-title */
+@media (min-width: 501px) and (max-width: 768px) {
+    .default-title,
+    .mobile-title,
+    .large-title {
+        display: none;
+    }
+    .tablet-title {
+        display: inline;
+    }
+    
+    .calculator-container {
+        max-width: 600px;
+    }
+    
+    .calc-keys th, .calc-keys td {
+        padding: 20px 0;
+        font-size: 1.2rem;
+    }
+    
+    #calcTitle {
+        font-size: 1.8rem;
+    }
+    
+    #inputValue {
+        font-size: 2.5rem;
+    }
+}
+
+/* Smartphones (<500px) - Muestra mobile-title */
+@media (max-width: 500px) {
+    .default-title,
+    .tablet-title,
+    .large-title {
+        display: none;
+    }
+    .mobile-title {
+        display: inline;
+    }
+    
+    .calculator-container {
+        width: 95%;
+    }
+    
+    .calc-keys th, .calc-keys td {
+        padding: 12px 0;
+    }
+    
+    #calcTitle {
+        font-size: 1.3rem;
+    }
+    
+    #inputValue {
+        font-size: 1.7rem;
+    }
+}
+
+/* Móviles muy pequeños (<350px) */
+@media (max-width: 350px) {
+    .calc-keys th, .calc-keys td {
+        padding: 8px 0;
+        font-size: 0.9rem;
+    }
+    
+    #calcTitle {
+        font-size: 1.1rem;
+    }
+    
+    #inputValue {
+        font-size: 1.4rem;
+    }
+}
+
+/* Estilos comunes para todos los dispositivos */
+.calc-text td {
+    background-color: #2C3145;
+    text-align: right !important;
+    padding-right: 15px !important;
+}
+
+#inputValue {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin: 0;
+}
+
+.numbers {
+    background-color: #363A4E;
+    color: white;
+}
+
+.operators {
+    background-color: #2C3145;
+    color: white;
+}
+
+.other-operators {
+    background-color: #4CC2FF;
+    color: #1A4454;
+}
+
+/* Efectos hover */
+.numbers:hover, .operators:hover, .other-operators:hover {
+    filter: brightness(1.2);
+    cursor: pointer;
+}
+
+/* Efectos active */
+.numbers:active, .operators:active, .other-operators:active {
+    transform: scale(0.95);
+}
