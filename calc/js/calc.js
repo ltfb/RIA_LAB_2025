@@ -8,7 +8,9 @@ document.querySelectorAll(".operators, .other-operators").forEach(function(item)
 
         if (btnValue === "=") {
             try {
-                inputValue.innerText = eval(expression);
+                // Replace occurrences of √number with Math.sqrt(number)
+                let safeExpression = expression.replace(/√(\d+(\.\d+)?)/g, 'Math.sqrt($1)');
+                inputValue.innerText = eval(safeExpression);
             } catch (error) {
                 inputValue.innerText = "Error";
             }
@@ -18,17 +20,39 @@ document.querySelectorAll(".operators, .other-operators").forEach(function(item)
             if (inputValue.innerText === "Error") // Avoid error message bug
                 inputValue.innerText = "0";
             else inputValue.innerText = expression.slice(0, -1) || "0";
+        } else if (btnValue === "+/-") {
+            if (inputValue.innerText!== "0"){
+                if (expression.startsWith("-")) {
+                    inputValue.innerText = expression.slice(1);
+                } else {
+                    inputValue.innerText = "-" + expression;
+                }
+            }
+            
         } else {
+            // Prevent multiple consecutive operators, except allow "+" or "-" after "√"
             if ("+-*/%√".includes(btnValue) && "+-*/%√".includes(lastChar)) {
-                return; // prevent multiple operators
+                // Allow "+" or "-" after "√"
+                if ((lastChar === "√") && (btnValue === "+" || btnValue === "-")) {
+                    // allow
+                } else {
+                    return; // prevent multiple operators
+                }
             }
             if (inputValue.innerText === "0") {
                 inputValue.innerText = "";
             }
 
             if (btnValue === "√") {
-              inputValue.innerText = Math.sqrt(parseFloat(expression)) || "0";
+                // Show "√" on screen, but prevent multiple consecutive "√"
+                // Allow summing and subtracting after √, but prevent multiple consecutive "√"
+                if (lastChar === "√") {
+                    return;
+                }
+                inputValue.innerText += "√";
+                return; // Prevent appending another "√"
             }
+
             inputValue.innerText += btnValue;
         }
     });

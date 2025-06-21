@@ -38,6 +38,21 @@ $(document).ready(function() {
         "font-size": "2rem",
         "min-width": "720px",
         "min-height": "480px",
+        "display": "grid",
+        "grid-template-columns": "repeat(auto-fit, minmax(64px, 1fr))",
+        "gap": "8px",
+        "align-items": "center",
+        "justify-items": "center"
+    });
+
+    // Align comboboxes (select elements) inside .calc-keys
+    $(".calc-keys select").css({
+        "width": "100%",
+        "max-width": "120px",
+        "font-size": "1.1rem",
+        "margin": "0 auto",
+        "display": "block",
+        "box-sizing": "border-box"
     });
     
     $(".calc-title").css({
@@ -55,9 +70,59 @@ $(document).ready(function() {
         "align-items": "center"
     });
 
+    //Style equal button
+    $("#tr6_4").css({
+        "color": "#1A4454",
+        "background-color": "#4CC2FF",
+    });
+    
+    $("#tr6_4").hover(
+        function() {
+            $(this).css({
+                "background-color": "#47B0E7",
+                "color": "white"
+            });
+        },
+        function() {
+            $(this).css({
+                "background-color": "#4CC2FF",
+                "color": "#1A4454"
+            });
+        }
+    );
+    
     //Border radius for the calculator keys
+    // Set same size for all buttons (.numbers, .operators, #tr6_4)
     $(".numbers, .operators, .other-operators").css({
-        "border-radius": "8px"
+        "border-radius": "8px",
+        "width": "64px",
+        "height": "64px",
+        "font-size": "2rem",
+        "margin": "2px",
+        "display": "inline-flex",
+        "justify-content": "center",
+        "align-items": "center",
+        "box-sizing": "border-box"
+    });
+            $(this).css({
+                "background-color": "#4CC2FF",
+                "color": "#1A4454"
+            });
+        }
+    );
+    
+
+    // Add a visual feedback effect for equal button on click
+    $("#tr6_4").on("mousedown", function() {
+        $(this).css({
+            "background-color": "#41A1D7",
+                "color": "#265D7C"
+        });
+    }).on("mouseup mouseleave", function() {
+        $(this).css({
+            "background-color": "#4CC2FF",
+                "color": "#1A4454"
+        });
     });
 
     //Style the numbers
@@ -127,11 +192,6 @@ $(document).ready(function() {
             "color": "white"
         });
     })
-    //Style the other-operators
-    $(".other-operators").css({
-        "color": "#1A4454",
-        "background-color": "#4CC2FF",
-    });
 
     if (window.innerWidth >= 768) {// For larger screens
         $(".body").css({
@@ -146,5 +206,3 @@ $(document).ready(function() {
             "font-size": "12px"
         });
     }
-
-});
