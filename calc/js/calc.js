@@ -66,3 +66,4 @@ document.querySelectorAll(".numbers").forEach(function(item) {
         inputValue.innerText += e.target.innerText.trim();
     });
 });
+
