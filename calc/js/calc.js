@@ -1,68 +1,128 @@
 const inputValue = document.getElementById('inputValue');
 
+let justEvaluated = false;
+
 document.querySelectorAll(".operators, .other-operators").forEach(function(item) {
     item.addEventListener("click", function(e) {
-        const btnValue = e.target.innerText;
-        let expression = inputValue.innerText;
+        const btnValue = e.target.innerText.trim();
+        let expression = inputValue.value;
         let lastChar = expression.slice(-1);
 
-        if (btnValue === "=") {
-            try {
-                // Replace occurrences of √number with Math.sqrt(number)
-                let safeExpression = expression.replace(/√(\d+(\.\d+)?)/g, 'Math.sqrt($1)');
-                inputValue.innerText = eval(safeExpression);
-            } catch (error) {
-                inputValue.innerText = "Error";
-            }
-        } else if (btnValue === "AC") {
-            inputValue.innerText = "0";
-        } else if (btnValue === "DEL") {
-            if (inputValue.innerText === "Error") // Avoid error message bug
-                inputValue.innerText = "0";
-            else inputValue.innerText = expression.slice(0, -1) || "0";
-        } else if (btnValue === "+/-") {
-            if (inputValue.innerText!== "0"){
-                if (expression.startsWith("-")) {
-                    inputValue.innerText = expression.slice(1);
-                } else {
-                    inputValue.innerText = "-" + expression;
-                }
-            }
-            
-        } else {
-            // Prevent multiple consecutive operators, except allow "+" or "-" after "√"
-            if ("+-*/%√".includes(btnValue) && "+-*/%√".includes(lastChar)) {
-                // Allow "+" or "-" after "√"
-                if ((lastChar === "√") && (btnValue === "+" || btnValue === "-")) {
-                    // allow
-                } else {
-                    return; // prevent multiple operators
-                }
-            }
-            if (inputValue.innerText === "0") {
-                inputValue.innerText = "";
-            }
+        switch (btnValue) {
+            case "=":
+                try {
+                    let safeExpr = expression
+                        .replace(/√(\([^()]*\)|\d+(\.\d+)?)/g, match => {
+                            const value = match.slice(1);
+                            return `Math.sqrt(${value})`;
+                        })
+                        .replace(/(\([^()]*\)|\d+(\.\d+)?)²/g, match => {
+                            const value = match.slice(0, -1);
+                            return `Math.pow(${value}, 2)`;
+                        });
 
-            if (btnValue === "√") {
-                // Show "√" on screen, but prevent multiple consecutive "√"
-                // Allow summing and subtracting after √, but prevent multiple consecutive "√"
-                if (lastChar === "√") {
+                    let result = Function('"use strict"; return (' + safeExpr + ')')();
+                    inputValue.value = result;
+                    justEvaluated = true;
+                } catch (error) {
+                    inputValue.value = "Error";
+                    justEvaluated = true;
+                }
+                break;
+
+            case "AC":
+                inputValue.value = "0";
+                justEvaluated = false;
+                break;
+
+            case "DEL":
+            case "⌫":
+                expression = inputValue.value;
+                if (
+                    expression === "" ||
+                    expression === "Error" ||
+                    expression === "NaN" ||
+                    expression === "0"
+                ) {
+                    inputValue.value = "0";
+                } else {
+                    let newText = expression.slice(0, -1);
+                    inputValue.value = newText === "" ? "0" : newText;
+                }
+                justEvaluated = false;
+                break;
+
+            case "1/x":
+                try {
+                    let value = parseFloat(expression);
+                    if (!isNaN(value) && value !== 0) {
+                        inputValue.value = 1 / value;
+                    } else {
+                        inputValue.value = "Error";
+                    }
+                    justEvaluated = true;
+                } catch (error) {
+                    inputValue.value = "Error";
+                    justEvaluated = true;
+                }
+                break;
+
+            case "x²":
+                try {
+                    let value = parseFloat(expression);
+                    if (!isNaN(value)) {
+                        inputValue.value = value * value;
+                    } else {
+                        inputValue.value = "Error";
+                    }
+                    justEvaluated = true;
+                } catch (error) {
+                    inputValue.value = "Error";
+                    justEvaluated = true;
+                }
+                break;
+
+            default:
+                if (justEvaluated) {
+                    if (!isNaN(btnValue) || btnValue === "√" || btnValue === "x²" || btnValue === "1/x") {
+                        if (btnValue === "x²") {
+                            inputValue.value = inputValue.value + "²";
+                        } else if (btnValue === "√") {
+                            inputValue.value = "√";
+                        } else {
+                            inputValue.value = btnValue;
+                        }
+                    } else {
+                        inputValue.value += btnValue;
+                    }
+                    justEvaluated = false;
                     return;
                 }
-                inputValue.innerText += "√";
-                return; // Prevent appending another "√"
-            }
 
-            inputValue.innerText += btnValue;
+                if ("+-*/".includes(btnValue) && "+-*/".includes(lastChar)) {
+                    return;
+                }
+
+                if (inputValue.value === "0") {
+                    inputValue.value = "";
+                }
+
+                inputValue.value += btnValue;
+                justEvaluated = false;
         }
     });
 });
 
-document.querySelectorAll(".numbers").forEach(function(item) {
+document.querySelectorAll(".numbers").forEach(function(item) { 
     item.addEventListener("click", function(e) {
-        if (inputValue.innerText === "0") {
-            inputValue.innerText = "";
+        if (inputValue.value === "0" || inputValue.value === "Error" || inputValue.value === "NaN") {
+            inputValue.value = "";
         }
-        inputValue.innerText += e.target.innerText.trim();
+        inputValue.value += e.target.innerText.trim();
     });
 });
+
+function menuOptions() {
+  const x = document.getElementById("myLinks");
+  x.style.display = (x.style.display === "block") ? "none" : "block";
+}

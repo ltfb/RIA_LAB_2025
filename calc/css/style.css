@@ -1,3 +1,13 @@
+/* Global styles */
+body, html {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 body{
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
@@ -5,8 +15,227 @@ body{
     padding: 20px;
 }
 
+/* Calculator container */
+.calculator {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+}
+
+/* Calculator layout */
 .calc-keys {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 10px;
+  font-size: 2rem;
+  min-width: 720px;
+  min-height: 480px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(64px, 1fr));
+  gap: 8px;
+  align-items: center;
+  justify-items: center;
+}
+
+.calc-keys select {
+  width: 100%;
+  max-width: 120px;
+  font-size: 1.1rem;
+  margin: 0 auto;
+  display: block;
+  box-sizing: border-box;
+}
+
+.calc-title {
+  text-align: left;
+  justify-self: start;
+}
+
+/* Button base styles */
+.numbers, .operators, .other-operators {
+  border-radius: 8px;
+  width: 64px;
+  height: 64px;
+  font-size: 2rem;
+  margin: 2px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+/*Input*/
+#inputValue{
+    width: 100%; 
+    height: 64px;
+    background-color: #f4f4f4;
+    color:#1A4454;
+}
+
+/* Equal button */
+#equal {
+  color: #1A4454;
+  background-color: #4CC2FF;
+}
+
+#equal:hover {
+  background-color: #47B0E7;
+  color: white;
+}
+
+/* Equal visual feedback */
+#equal:active {
+  background-color: #41A1D7;
+  color: #265D7C;
+}
+
+/* Numbers */
+.numbers {
+  color: white;
+  background-color: #363A4E;
+}
+
+.numbers:hover {
+  background-color: #2D3145;
+}
+
+.numbers:active {
+  background-color: #22283B;
+}
+
+/* Operators */
+.operators {
+  color: white;
+  background-color: #2C3145;
+}
+
+.operators:hover {
+  background-color: #363A4E;
+}
+
+.operators:active {
+  background-color: #22283B;
+}
+
+/* Responsive text size */
+/* Pantallas grandes (>768px) - Muestra large-title */
+@media (min-width: 769px) {
+    .default-title,
+    .tablet-title,
+    .mobile-title {
+        display: none;
+    }
+    .large-title {
+        display: inline;
+    }
+    
+
+    .calculator-container {
+        max-width: 400px; 
+        transform: scale(0.9); 
+        transform-origin: center;
+    }
+    
+    
+    .calc-keys th, .calc-keys td {
+        padding: 18px 0; 
+        font-size: 1.3rem; 
+    }
+    
+    #calcTitle {
+        font-size: 1.6rem; 
+    }
+    
+    #inputValue {
+        font-size: 2.2rem;
+        height: 64px;
+        line-height: 64px;
+        resize: none;               /* don't allow user to resize */
+        overflow: hidden;           /* hide scrollbars */
+        white-space: nowrap;        /* keep input on one line */
+        width: 100%;
+        box-sizing: border-box;
+        text-align: right;
+        padding: 0 16px;
+        background-color: #000;
+        color: #4CC2FF;
+        border: none;
+        border-radius: 8px;
+    }
+
+    .calc-keys {
+        border-spacing: 4px;
+    }
+}
+
+/* Tablets (501px - 768px)*/
+@media (min-width: 501px) and (max-width: 768px) {
+    .default-title,
+    .mobile-title,
+    .large-title {
+        display: none;
+    }
+    .tablet-title {
+        display: inline;
+    }
+    
+    .calculator-container {
+        max-width: 600px;
+    }
+    
+    .calc-keys th, .calc-keys td {
+        padding: 20px 0;
+        font-size: 1.2rem;
+    }
+    
+    #calcTitle {
+        font-size: 1.8rem;
+    }
+    
+    #inputValue {
+        font-size: 2.5rem;
+    }
+}
+
+/* Smartphones (<500px) */
+@media (max-width: 500px) {
+    .default-title,
+    .tablet-title,
+    .large-title {
+        display: none;
+    }
+    .mobile-title {
+        display: inline;
+    }
+    
+    .calculator-container {
+        width: 95%;
+    }
+    
+    .calc-keys th, .calc-keys td {
+        padding: 12px 0;
+    }
+    
+    #calcTitle {
+        font-size: 1.3rem;
+    }
+    
+    #inputValue {
+        font-size: 1.7rem;
+    }
+}
+
+/* Tiny phones (<350px) */
+@media (max-width: 350px) {
+    .calc-keys th, .calc-keys td {
+        padding: 8px 0;
+        font-size: 0.9rem;
+    }
+    
+    #calcTitle {
+        font-size: 1.1rem;
+    }
+    
+    #inputValue {
+        font-size: 1.4rem;
+    }
 }
