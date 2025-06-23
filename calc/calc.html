@@ -7,9 +7,12 @@
     <!--<link rel="stylesheet" href="css/style.css">-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <!-- Link to the favicon -->
+      <link rel="icon" type="image/png" href="image/favicon.png">
     <link rel="stylesheet" href="css/style.css">
 </head>   
-<body>
+<body class="theme_1"> <!--or theme_1-->
     <div class="calc-container">  
         <table class="calc-keys">
             <tr>
@@ -17,16 +20,41 @@
             </tr>
             <tr>
                 <td colspan="4" style="text-align:left;">
-                    <button type="button" onclick="menuOptions()" aria-label="Open navigation menu" style="background:none;border:none;padding:0;float:right;">
-                    <i class="fa fa-bars" style="color:white; font-size:24px;"></i>
-                    </button>
-
-                    <div id="myLinks" style="display:contents;">
-                        <select id="theme" style="background-color:transparent; border:none; color:white; font-size:16px; padding:0;">
-                            <option value="light">Light</option>
-                            <option value="dark">Dark</option>
-                        </select>
+                <button type="button" onclick="menuOptions()" aria-label="Open navigation menu" style="background:none;border:none;padding:0;float:right;">
+                    <i id="burgerMenu" class="fa fa-bars"></i>
+                </button>
+                <!-- YouTube Music Player Popup (Left) -->
+                <div id="ytMusicPopup" style="display:none">
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <span>YT Music</span>
+                        <button onclick="document.getElementById('ytMusicPopup').style.display='none'" style="background:none; border:none; color:white; font-size:18px; cursor:pointer;">&times;</button>
                     </div>
+                    <iframe width="250" height="140" src="https://music.youtube.com/playlist?list=PLFaNnYKz-FxTxoXAuwBIHKAm3F83a-g1U" title="YouTube Music Playlist" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                </div>
+                <button id="ytBtn" type="button" onclick="document.getElementById('ytMusicPopup').style.display='block'" aria-label="Open YT Music Player">
+                    <i id="YT_ICO" class="fa fa-music" style="display: none"></i>
+                </button>
+
+                <!-- Webcam Popup (Right) -->
+                <div id="webcamPopup" style="display:none">
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <span>Webcam</span>
+                        <button onclick="closeWebcam()" style="background:none; border:none; color:white; font-size:18px; cursor:pointer;">&times;</button>
+                    </div>
+                    <video id="webcamVideo" width="250" height="140" autoplay style="background:#000; border-radius:6px;"></video>
+                </div>
+                <button id="webcamBtn" type="button" onclick="openWebcam()" aria-label="Open Webcam">
+                    <i id="WEBCAM_ICO" class="fa fa-video-camera" style="display: none"> </i>
+                </button>
+
+                <div id="myLinks" style="display:inline-block; margin-left:8px;">
+                    <select id="themes" style="background-color:transparent; border:none; font-size:16px; padding:0; color:inherit;">
+                    <option value="1">Light</option>
+                    <option value="2">Dark</option>
+                    <option value="3">Light ColorFul</option>
+                    <option value="4">Dark ColorFul</option>
+                    </select>
+                </div>
                 </td>
             </tr>
             <tr id="tr0" class="calc-text">
