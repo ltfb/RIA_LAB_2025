@@ -1,0 +1,91 @@
+<!DOCTYPE HTML>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora Científica</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>   
+<body>
+<div class="calc-container">
+    <table class="calc-keys">
+        <tr>
+            <th colspan="4" id="calcTitle" style="text-align:center;">
+                <span class="default-title">Calculadora Científica</span>
+                <span class="tablet-title">Calculadora Científica Tablet</span>
+                <span class="mobile-title">Calculadora Científica Mobile</span>
+                <span class="large-title">Calculadora Científica</span>
+            </th>
+        </tr>
+ <tr>
+                <td colspan="4" style="text-align:left;">
+                    <button type="button" onclick="menuOptions()" aria-label="Open navigation menu" style="background:none;border:none;padding:0;float:right;">
+                    <i class="fa fa-bars" style="color:white; font-size:24px;"></i>
+                    </button>
+
+                    <div id="myLinks" style="display:contents;">
+                        <select id="theme" style="background-color:transparent; border:none; color:white; font-size:16px; padding:0;">
+                            <option value="light">Light</option>
+                            <option value="dark">Dark</option>
+                        </select>
+                    </div>
+                </td>
+        </tr>
+        <tr id="tr0" class="calc-text">
+                <td colspan="4" style="text-align:right;">
+                    <textarea name="input-value" id="inputValue" style="margin:0;">0</textarea>
+                </td>
+            </tr>
+        <tr id="tr1">
+            <td type="btn" class="operators">2<sup>nd</sup></td>
+            <td type="btn" class="operators">π</td>
+            <td type="btn" class="operators">e</td>
+            <td type="btn" class="operators">c</td>
+            <td type="btn" class="operators">ⓒ</td>
+        </tr>
+        <tr>
+            <td type="btn" class="operators">x²</td>
+            <td type="btn" class="operators">1/x</td>
+            <td type="btn" class="operators">|x|</td>
+            <td type="btn" class="operators">exp</td>
+            <td type="btn" class="operators">mod</td>
+        </tr>
+        <tr>
+            <td type="btn" class="operators">∛x</td>
+            <td type="btn" class="operators">(</td>
+            <td type="btn" class="operators">)</td>
+            <td type="btn" class="operators">n!</td>
+            <td type="btn" class="operators">÷</td>
+        </tr>
+        <tr>
+            <td type="btn" class="operators">x<sup>y</sup></td>
+            <td type="btn" class="numbers">7</td>
+            <td type="btn" class="numbers">8</td>
+            <td type="btn" class="numbers">9</td>
+            <td type="btn" class="operators">×</td>
+        </tr>
+        <tr>
+            <td type="btn" class="operators">10<sup>x</sup></td>
+            <td type="btn" class="numbers">4</td>
+            <td type="btn" class="numbers">5</td>
+            <td type="btn" class="numbers">6</td>
+            <td type="btn" class="operators">-</td>
+        </tr>
+        <tr>
+            <td type="btn" class="operators">log</td>
+            <td type="btn" class="numbers">1</td>
+            <td type="btn" class="numbers">2</td>
+            <td type="btn" class="numbers">3</td>
+            <td type="btn" class="operators">+</td>
+        </tr>
+        <tr>
+            <td type="btn" class="operators">ln</td>
+            <td type="btn" class="operators">(-)</td>
+            <td type="btn" class="numbers">0</td>
+            <td type="btn" class="operators">.</td>
+            <td id="equal" type="btn" class="operators">=</td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>
