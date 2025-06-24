@@ -4,64 +4,91 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculator</title>
+    <!--<link rel="stylesheet" href="css/style.css">-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <!-- Link to the favicon -->
+      <link rel="icon" type="image/png" href="image/favicon.png">
     <link rel="stylesheet" href="css/style.css">
 </head>   
-<body>
-<div class="calculator-container">
-    <table class="calc-keys">
-        <tr>
-            <th colspan="4" id="calcTitle">
-                <span class="default-title">Calculadora Simple</span>
-                <span class="tablet-title">Calculadora Simple Pantalla Tablet</span>
-                <span class="mobile-title">Calculadora Simple Pantalla SmartPhone</span>
-                <span class="large-title">Calculadora Simple Pantalla Pantalla Grande</span>
-            </th>
-        </tr>
-        <tr id="tr0" class="calc-text">
-            <td colspan="4">
-                <p name="input-value" id="inputValue">0</p>
-            </td>
-        </tr>
-        <tr id="tr1">
-            <td id="tr1_1" type="btn" class="other-operators" data-value="%">%</td>
-            <td id="tr1_2" type="btn" class="other-operators" data-value="AC">AC</td>
-            <td id="tr1_3" type="btn" class="other-operators" data-value="DEL">DEL</td>
-            <td id="tr1_4" type="btn" class="other-operators" data-value="DEL">DEL</td>
-        </tr>
-        <tr id="tr2">
-            <td id="tr2_1" type="btn" class="operators" data-value="1/x">1/x</td>
-            <td id="tr2_2" type="btn" class="operators" data-value="x^2">x²</td>
-            <td id="tr2_3" type="btn" class="operators" data-value="√">√</td>
-            <td id="tr2_4" type="btn" class="operators" data-value="/">/</td>
-        </tr>
-        <tr id="tr3">
-            <td id="tr3_1" type="btn" class="numbers" data-value="7">7</td>
-            <td id="tr3_2" type="btn" class="numbers" data-value="8">8</td>
-            <td id="tr3_3" type="btn" class="numbers" data-value="9">9</td>
-            <td id="tr3_4" type="btn" class="operators" data-value="*">*</td>
-        </tr>
-        <tr id="tr4">
-            <td id="tr4_1" type="btn" class="numbers" data-value="4">4</td>
-            <td id="tr4_2" type="btn" class="numbers" data-value="5">5</td>
-            <td id="tr4_3" type="btn" class="numbers" data-value="6">6</td>
-            <td id="tr4_4" type="btn" class="operators" data-value="-">-</td>
-        </tr>
-        <tr id="tr5">
-            <td id="tr5_1" type="btn" class="numbers" data-value="1">1</td>
-            <td id="tr5_2" type="btn" class="numbers" data-value="2">2</td>
-            <td id="tr5_3" type="btn" class="numbers" data-value="3">3</td>
-            <td id="tr5_4" type="btn" class="operators" data-value="+">+</td>   
-        </tr>
-        <tr id="tr6">
-            <td id="tr6_1" type="btn" class="operators" data-value=".">.</td>
-            <td id="tr6_2" type="btn" class="numbers" data-value="0">0</td>
-            <td id="tr6_3" type="btn" class="operators" data-value="=">=</td>
-            <td id="tr6_4" type="btn" class="operators" data-value="=">=</td>
-        </tr>
-    </table>
-</div>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<body class="theme_1"> <!--or theme_1-->
+        <nav class="navbar">
+        <div class="logo">Calculadora</div>
+        <ul class="nav-links">
+            <li><a href="adv_calc.html">Calculadora Científica</a></li>
+            <li><a href="#"></a></li>
+            <li><a href="#"> </a></li>
+            <li><a href="#"></a></li>
+        </ul>
+    </nav>
+    <div class="calc-container">  
+        <table class="calc-keys">
+            <tr>
+                <th colspan="4" id="calcTitle" style="text-align:center;">Calculadora Simple</th>
+            </tr>
+            <tr>
+                <td colspan="4" style="text-align:left;">
+                <button type="button" onclick="menuOptions()" aria-label="Open navigation menu" style="background:none;border:none;padding:0;float:right;">
+                    <i id="burgerMenu" class="fa fa-bars"></i>
+                </button>
+             
+
+                <div id="myLinks" style="display:inline-block; margin-left:8px;">
+                    <select id="themes" style="background-color:transparent; border:none; font-size:16px; padding:0; color:inherit;">
+                    <option value="1">Light</option>
+                    <option value="2">Dark</option>
+                    <option value="3">Light ColorFul</option>
+                    <option value="4">Dark ColorFul</option>
+                    </select>
+                </div>
+                </td>
+            </tr>
+            <tr id="tr0" class="calc-text">
+                <td colspan="4" style="text-align:right;">
+                    <textarea name="input-value" id="inputValue" style="margin:0;">0</textarea>
+                </td>
+            </tr>
+            <tr id="tr1">
+                <td id="mod" type="btn" class="operators" data-value="%">%</td>
+                <td id="ac" type="btn" class="operators" data-value="AC">AC</td>
+                <td id="del" type="btn" class="operators" data-value="DEL">DEL</td>
+                <td id="erase" type="btn" class="operators" data-value="ERASE">&#9003</td>
+            </tr>
+            <tr id="tr2">
+                <td id="oneDiv" type="btn" class="operators" data-value="1/x">1/x</td>
+                <td id="sqr2" type="btn" class="operators" data-value="x^2">x²</td>
+                <td id="sqrt" type="btn" class="operators" data-value="√">√</td>
+                <td id="div" type="btn" class="operators" data-value="/">/</td>
+            </tr>
+            <tr id="tr3">
+                <td id="n7" type="btn" class="numbers" data-value="7">7</td>
+                <td id="n8" type="btn" class="numbers" data-value="8">8</td>
+                <td id="n9" type="btn" class="numbers" data-value="9">9</td>
+                <td id="mult" type="btn" class="operators" data-value="*">*</td>
+            </tr>
+            <tr id="tr4">
+                <td id="n4" type="btn" class="numbers" data-value="4">4</td>
+                <td id="n5" type="btn" class="numbers" data-value="5">5</td>
+                <td id="n6" type="btn" class="numbers" data-value="6">6</td>
+                <td id="minus" type="btn" class="operators" data-value="-">-</td>
+            </tr>
+            <tr id="tr5">
+                <td id="n1" type="btn" class="numbers" data-value="1">1</td>
+                <td id="n2" type="btn" class="numbers" data-value="2">2</td>
+                <td id="n3" type="btn" class="numbers" data-value="3">3</td>
+                <td id="plus" type="btn" class="operators" data-value="+">+</td>   
+            </tr>
+            <tr id="tr6">
+                <td id="sign" type="btn" class="operators" data-value="+/-">+/-</td>
+                <td id="zero" type="btn" class="numbers" data-value="0">0</td>
+                <td id="dot" type="btn" class="operators" data-value=".">.</td>
+                <td id="equal" type="btn" class="operators" data-value="=">=</td>
+            </tr>
+        </table>
+    </div>
+    <script src="js/style.js"></script>
     <script type="text/javascript" src="js/calc.js"></script>
-    <script type="text/javascript" src="js/style.js"></script>
 </body>
+
 </html>
