@@ -1,51 +1,27 @@
-$(document).ready(function() {
+$(document).ready(function () {
+  // Warn if no .numbers exist
+  if ($(".numbers").length === 0) {
+    console.warn('No elements with class "numbers" found.');
+  }
 
-    // Efecto de hover y click para los botones de números
-    $(".numbers").hover(
-        function () {
-            $(this).addClass("hovered");
-        },
-        function () {
-            $(this).removeClass("hovered");
-        }
-    ).on("mousedown", function () {
-        $(this).addClass("clicked");
-    }).on("mouseup mouseleave", function () {
-        $(this).removeClass("clicked");
+  // Automatically focus the textarea when the page loads
+  $("#inputValue").focus();
+
+  // Equal button visual feedback
+  $("#equal")
+    .on("mousedown", function () {
+      $(this).addClass("equal-active");
+    })
+    .on("mouseup mouseleave", function () {
+      $(this).removeClass("equal-active");
     });
 
-    // Efecto de hover y click para los operadores
-    $(".operators").hover(
-        function () {
-            $(this).addClass("hovered");
-        },
-        function () {
-            $(this).removeClass("hovered");
-        }
-    ).on("mousedown", function () {
-        $(this).addClass("clicked");
-    }).on("mouseup mouseleave", function () {
-        $(this).removeClass("clicked");
-    });
+  // Theme switcher
+  $("#themes").on("change", function () {
+    const selected = $(this).val(); // "1", "2", "3" or "4"
+    $("body").removeClass("theme_1 theme_2 theme_3 theme_4 theme_5").addClass("theme_" + selected);
 
-    // Efectos para el botón "="
-    $("#tr6_4").on("mousedown", function () {
-        $(this).addClass("equal-clicked");
-    }).on("mouseup mouseleave", function () {
-        $(this).removeClass("equal-clicked");
-    });
-
-    // Cambiar tema desde el selector
-    $('#themeSelector').on('change', function () {
-        const selectedTheme = $(this).val();
-        $('body').removeClass('default dark light colorful').addClass(selectedTheme);
-        localStorage.setItem('theme', selectedTheme);
-    });
-
-    // Cargar tema guardado si existe
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme) {
-        $('body').removeClass('default dark light colorful').addClass(savedTheme);
-        $('#themeSelector').val(savedTheme);
-    }
+    // Remove inline styles if previously applied
+    $(".numbers, .operators, #equal, #inputValue, .calc-keys").removeAttr("style");
+  });
 });
