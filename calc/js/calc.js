@@ -15,11 +15,13 @@ document.querySelectorAll(".operators, .other-operators").forEach(function(item)
                 document.getElementById('WEBCAM_ICO').style.display = "block";
                 inputValue.value = "🎉 Surprise!";
                 justEvaluated = true;
-                break;
+                return; // Exit early after handling easter egg
             } else if (expression.trim().toUpperCase() === "EASTEREGG"){
                 console.log("EASTER EGG detected!");
                 inputValue.value = "🎉 Surprise!";
                 document.getElementById('YT_ICO').style.display = "block";
+                justEvaluated = true;
+                return; // Exit early after handling easter egg
             }
             try {
                 // Only allow numbers, operators, parentheses, decimal points, sqrt, and square
