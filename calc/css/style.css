@@ -373,3 +373,70 @@ button{
     font-size: 1.4rem;
   }
 }
+
+
+.opt_Th {
+  background-color: rgb(216, 227, 231); /* Default background color */
+  color: #1A1A1B;
+}
+
+.opt_Th:focus {
+  background-color: lightgreen; /* Background color when focused */
+  color: #1A1A1B;
+}
+
+.opt_Th:optional {
+  background-color: white; /* Default background for options */
+  color: #1A1A1B;
+}
+
+.opt_Th:optional:checked {
+  background-color: lightgray; /* Background for selected options */
+  color: #1A1A1B;
+
+}
+
+/* Navbar styles */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #333;
+  color: white;
+  padding: 1rem 2rem;
+  width: 100%;
+  box-sizing: border-box;
+  position:fixed; 
+  top:0; 
+  left:0; 
+  width:100%; 
+  z-index:1000
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.nav-links {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-links li {
+  margin-left: 1.5rem;
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  transition: color 0.3s;
+  white-space: nowrap;
+}
+
+.nav-links a:hover {
+  color: #4CAF50;
+}

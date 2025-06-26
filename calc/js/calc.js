@@ -15,26 +15,32 @@ document.querySelectorAll(".operators, .other-operators").forEach(function(item)
                 document.getElementById('WEBCAM_ICO').style.display = "block";
                 inputValue.value = "🎉 Surprise!";
                 justEvaluated = true;
-                break;
+                return; // Exit early after handling easter egg
             } else if (expression.trim().toUpperCase() === "EASTEREGG"){
                 console.log("EASTER EGG detected!");
                 inputValue.value = "🎉 Surprise!";
                 document.getElementById('YT_ICO').style.display = "block";
+                justEvaluated = true;
+                return; // Exit early after handling easter egg
             }
             try {
                 // Only allow numbers, operators, parentheses, decimal points, sqrt, and square
                 let safeExpr = expression
-                    .replace(/√(\([^()]*\)|\d+(\.\d+)?)/g, (match, p1) => {
-                        return `Math.sqrt${p1}`;
+                    // Replace √number or √(expression) with Math.sqrt(number/expression)
+                    .replace(/√(\d+(\.\d+)?|\([^()]*\))/g, (match, p1) => {
+                        return `Math.sqrt(${p1})`;
                     })
-                    .replace(/(\([^()]*\)|\d+(\.\d+)?)²/g, (match, p1) => {
+                    // Replace number² or (expression)² with Math.pow(number/expression, 2)
+                    .replace(/(\d+(\.\d+)?|\([^()]*\))²/g, (match, p1) => {
                         return `Math.pow(${p1},2)`;
                     })
                     .replace(/÷/g, "/")
                     .replace(/×/g, "*");
-
+                    // Evaluate using arithmetic only, no eval or Function for user input
+                    // Only allow numbers, operators, parentheses, decimal points, sqrt, and square
+                    // Already replaced √ and ² above, so safeExpr should be safe for Function
                 // Prevent code injection by allowing only safe characters
-                if (!/^[\d+\-*/()., Mathsqrtpow]+$/.test(safeExpr)) {
+                if (!/^[\d+\-*/()., Mathsqrtpowy]+$/.test(safeExpr)) {
                     throw new Error("Unsafe expression");
                 }
 
@@ -141,7 +147,7 @@ document.querySelectorAll(".numbers").forEach(function(item) {
 });
 
 function menuOptions() {
-  const x = document.getElementById("myLinks");
+  const x = document.getElementById("menuOpts1_2");
   x.style.display = (x.style.display === "block") ? "none" : "block";
 }
 
