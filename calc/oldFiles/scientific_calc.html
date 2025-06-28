@@ -1,0 +1,135 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <!--<link rel="stylesheet" href="css/style.css">-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <!-- Link to the favicon -->
+      <link rel="icon" type="image/png" href="image/favicon.png">
+    <link rel="stylesheet" href="css/style.css">
+</head>   
+<body class="theme_1"> <!--or theme_1-->
+    <nav class="navbar">
+        <div class="logo">Calculator</div>
+        <div id="menuOpts1_1">
+            <button type="button" onclick="menuOptions()" aria-label="Open navigation menu" style="background:none;border:none;padding:0;float:right;">
+                <i id="burgerMenu" class="fa fa-bars"></i>
+            </button>
+    
+            <!-- YouTube Music Player Popup (Left) -->
+            <div id="menuOpts1_2" style="display: none;">
+                <div id="ytMusicPopup" style="display:none">
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <span>YT Music</span>
+                        <button onclick="document.getElementById('ytMusicPopup').style.display='none'" style="background:none; border:none; color:white; font-size:18px; cursor:pointer;">&times;</button>
+                    </div>
+                    <iframe width="250" height="140" src="https://music.youtube.com/embed/Igumc9Qf2Yc&si=A1-gmGSNwlNMv6Fq" title="YouTube Music Playlist" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                </div>
+                <button id="ytBtn" type="button" onclick="document.getElementById('ytMusicPopup').style.display='block'" aria-label="Open YT Music Player">
+                    <i id="YT_ICO" class="fa fa-music" style="display: none"></i>
+                </button>
+                
+                <!-- Webcam Popup (Right) -->
+                <div id="webcamPopup" style="display:none">
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <span>Webcam</span>
+                        <button onclick="closeWebcam()" style="background:none; border:none; color:white; font-size:18px; cursor:pointer;">&times;</button>
+                    </div>
+                    <video id="webcamVideo" width="250" height="140" autoplay style="background:#000; border-radius:6px;"></video>
+                </div>
+                <button id="webcamBtn" type="button" onclick="openWebcam()" aria-label="Open Webcam">
+                    <i id="WEBCAM_ICO" class="fa fa-video-camera" style="display: none"> </i>
+                </button>
+                
+            </div>
+            <ul class="nav-links">
+                <li><a href="simple_calc.html">Switch to Simple Mode</a></li>
+            </ul>
+        </nav>
+        <div class="calc-container">  
+            <table class="calc-keys">
+            <tr>
+                <th colspan="4" id="calcTitle" style="text-align:center;">Scientific Mode</th>
+            </tr>   
+                    <th colspan="4" id="opts_Th" style="text-align:center;">
+                        <div id="myLinks" style="display:inline-block; margin-left:8px;">
+                            <select id="themes" style="background-color:transparent; border:none; font-size:16px; padding:0; color:inherit;">
+                                <option class="opt_Th" value="1">Light</option>
+                                <option class="opt_Th" value="2">Dark</option>
+                                <option class="opt_Th" value="3">Light ColorFul</option>
+                                <option class="opt_Th" value="4">Dark ColorFul</option>
+                            </select>
+                        </div>
+                    </th>
+        </div>
+            </tr>
+            <tr>
+                <td colspan="4" style="text-align:left;"></td>
+            </tr>
+            <tr id="tr0">
+            </tr>
+            <tr id="tr1" class="calc-text">
+                <td colspan="4" style="text-align:right;">
+                    <textarea name="input-value" id="inputValue"></textarea>
+                </td>
+            </tr>
+            <tr id="tr1">
+                <td id="pi" type="btn" class="operators" data-value="π">π</td>
+                <td id="mod" type="btn" class="operators" data-value="%">%</td>
+                <td id="ac" type="btn" class="operators" data-value="AC">AC</td>
+                <td id="del" type="btn" class="operators" data-value="DEL">DEL</td>
+                <td id="erase" type="btn" class="operators" data-value="ERASE">&#9003</td>
+            </tr>
+            <tr id="tr2">
+                <td type="btn" class="operators">2<sup>nd</sup></td>
+                <td type="btn" class="operators">π</td>
+                <td type="btn" class="operators">e</td>
+                <td type="btn" class="operators">c</td>
+                <td type="btn" class="operators">|x|</td>
+            </tr>
+            <tr id="tr3">
+                <td id="cubeRoot" type="btn" class="operators">∛x</td>
+                <td id="oneDiv" type="btn" class="operators" data-value="1/x">1/x</td>
+                <td id="sqr2" type="btn" class="operators" data-value="x^2">x²</td>
+                <td id="sqrt" type="btn" class="operators" data-value="√">√</td>
+                <td id="div" type="btn" class="operators" data-value="/">/</td>
+            </tr>
+            <tr id="tr4">
+                <td id="x_Pow_y" type="btn" class="operators">x<sup>y</sup></td>
+                <td id="n7" type="btn" class="numbers" data-value="7">7</td>
+                <td id="n8" type="btn" class="numbers" data-value="8">8</td>
+                <td id="n9" type="btn" class="numbers" data-value="9">9</td>
+                <td id="mult" type="btn" class="operators" data-value="*">*</td>
+            </tr>
+            <tr id="tr5">
+                <td id="10x" type="btn" class="operators">10<sup>x</sup></td>
+                <td id="n4" type="btn" class="numbers" data-value="4">4</td>
+                <td id="n5" type="btn" class="numbers" data-value="5">5</td>
+                <td id="n6" type="btn" class="numbers" data-value="6">6</td>
+                <td id="minus" type="btn" class="operators" data-value="-">-</td>
+            </tr>
+            <tr id="tr6">
+                <td id="log" type="btn" class="operators">log</td>
+                <td id="n1" type="btn" class="numbers" data-value="1">1</td>
+                <td id="n2" type="btn" class="numbers" data-value="2">2</td>
+                <td id="n3" type="btn" class="numbers" data-value="3">3</td>
+                <td id="plus" type="btn" class="operators" data-value="+">+</td>   
+            </tr>
+            <tr id="tr7">
+                <td id="ln" type="btn" class="operators">ln</td>
+                <td id="sign" type="btn" class="operators" data-value="+/-">+/-</td>
+                <td id="zero" type="btn" class="numbers" data-value="0">0</td>
+                <td id="dot" type="btn" class="operators" data-value=".">.</td>
+                <td id="equal" type="btn" class="operators" data-value="=">=</td>
+            </tr>
+        </table>
+    </div>
+    <script src="js/style.js"></script>
+    <script type="text/javascript" src="js/calc.js"></script>
+</body>
+
+</html>
