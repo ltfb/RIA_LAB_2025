@@ -1,210 +1,75 @@
 const inputValue = document.getElementById('inputValue');
 
-let justEvaluated = false;
-
-
-function calcFunctions(e, customValue = null) {
-    const btnValue = customValue || e?.target?.innerText?.trim();
-    let expression = inputValue.value;
-    let lastChar = expression.slice(-1);
-
-    switch (btnValue) {
-        case "=": {
-            const expr = expression.trim().toUpperCase();
-            if (expr === "VS,") {
-                document.getElementById('WEBCAM_ICO').style.display = "block";
-                inputValue.value = "🎉 Surprise!";
-                justEvaluated = true;
-                return;
-            } else if (expr === "EASTEREGG") {
-                document.getElementById('YT_ICO').style.display = "block";
-                inputValue.value = "🎉 Surprise!";
-                justEvaluated = true;
-                return;
-            }
-
-            try {
-                let safeExpr = expression
-                    .replace(/√(\d+(\.\d+)?|\([^()]*\))/g, (_, value) => `Math.sqrt(${value})`)
-                    .replace(/(\d+(\.\d+)?|\([^()]*\))²/g, (_, value) => `Math.pow(${value},2)`)
-                    .replace(/÷/g, "/")
-                    .replace(/×/g, "*");
-
-                // Wrap raw numbers in parentheses
-                safeExpr = safeExpr.replace(/(?<![\w.])(\d+(\.\d+)?)(?![\w.])/g, '($1)');
-
-                let result = Function('"use strict"; return (' + safeExpr + ')')();
-                inputValue.value = isNaN(result) ? "Error" : result;
-                justEvaluated = true;
-            } catch (error) {
-                inputValue.value = "Error";
-                justEvaluated = true;
-            }
-            break;
-        }
-
-        case "AC":
-        case "C":
-            inputValue.value = "0";
-            justEvaluated = false;
-            break;
-
-        case "⌫":
-            if (
-                expression === "" ||
-                expression === "Error" ||
-                expression === "NaN" ||
-                expression === "Infinity" ||
-                expression === "🎉 Surprise!" ||
-                expression === "0"
-            ) {
-                inputValue.value = "0";
-            } else {
-                let newText = expression.slice(0, -1);
-                inputValue.value = newText === "" ? "0" : newText;
-            }
-            justEvaluated = false;
-            break;
-
-        case "1/x":
-            try {
-                let value = parseFloat(expression);
-                inputValue.value = (!isNaN(value) && value !== 0) ? (1 / value) : "Error";
-                justEvaluated = true;
-            } catch (error) {
-                inputValue.value = "Error";
-                console.log("Error: ", error);
-                justEvaluated = true;
-            }
-            break;
-
-        case "x²":
-            try {
-                let value = parseFloat(expression);
-                inputValue.value = !isNaN(value) ? value * value : "Error";
-                justEvaluated = true;
-            } catch (error) {
-                inputValue.value = "Error";
-                console.log("Error: ", error);
-                justEvaluated = true;
-            }
-            break;
-        
-        case "+/-":
-            if (inputValue.value !="" && inputValue.value !== "0" && inputValue.value !== "Error" && inputValue.value !== "NaN") {
-                if (inputValue.value.startsWith("-")) {
-                    inputValue.value = inputValue.value.slice(1);
-                } else {
-                    inputValue.value = "-" + inputValue.value;
-                }
-            }
-        break;
-
-        case "n!":
-            try {
-                let value = parseInt(expression);
-                if (isNaN(value)) throw new Error("Invalid input");
-                inputValue.value = factorial(value);
-                justEvaluated = true;
-            } catch (error) {
-                inputValue.value = "Error";
-                justEvaluated = true;
-            }
-            break;
-        case "π":
-            inputValue.value += Math.PI;
-            justEvaluated = true;
-            break;
-        case "e":
-            inputValue.value += Math.E;
-            justEvaluated = true;
-            break;
-        case "log":
-            try {
-                let value = parseFloat(expression);
-                if (isNaN(value) || value <= 0) {
-                    inputValue.value = "Error";
-                } else {
-                    inputValue.value += Math.log10(value);
-                }
-                justEvaluated = true;
-            } catch (error) {
-
-                inputValue.value = "Error";
-                console.log("Error: ", error);
-                justEvaluated = true;
-            }
-            break;
-        case "ln":
-            try {
-                let value = parseFloat(expression);
-                if (isNaN(value) || value <= 0) {
-                    inputValue.value = "Error";
-                } else {
-                    inputValue.value += Math.log(value);
-                }
-                justEvaluated = true;
-            } catch (error) {
-                inputValue.value = "Error";
-                console.log("Error: ", error);
-                justEvaluated = true;
-            }
-            break; 
-        default:
-            if (justEvaluated) {
-                if (!isNaN(btnValue) || btnValue === "√" || btnValue === "x²" || btnValue === "1/x" ) {
-                    if (btnValue === "x²") {
-                        inputValue.value = inputValue.value + "²";
-                    } else if (btnValue === "√") {
-                        inputValue.value = "√";
-                    } else {
-                        inputValue.value = btnValue;
-                    }
-                } else {
-                    inputValue.value += btnValue;
-                }
-                justEvaluated = false;
-                return;
-            }
-
-            if ("+-*/".includes(btnValue) && "+-*/".includes(lastChar)) return;
-
-            if (inputValue.value === "0") inputValue.value = "";
-
-            inputValue.value += btnValue;
-            justEvaluated = false;
-    }
-}
-
-// Attach click event to each button
-document.querySelectorAll(".operators, .other-operators").forEach(function (item) {
-    item.addEventListener("click", function (e) {
-        calcFunctions(e);
-    });
-});
-
-// Attach Enter key handler globally
-document.addEventListener("keydown", function (event) {
-    if (event.key === "Enter" && document.activeElement === inputValue) {
-        event.preventDefault(); // Prevent newline
-        calcFunctions(null, "=");
-        inputValue.value = inputValue.value.replace(/Enter$/, ""); // Remove if ends with Enter
-        console.log(inputValue.value + ".");
-        console.log("Enter key pressed");
-    }
-});
-
-document.querySelectorAll(".numbers").forEach(function(item) { 
+document.querySelectorAll(".operators, .other-operators").forEach(function(item) {
     item.addEventListener("click", function(e) {
-        if (inputValue.value === "0" || inputValue.value === "Error" || inputValue.value === "NaN") {
-            inputValue.value = "";
+        const btnValue = e.target.innerText;
+        let expression = inputValue.innerText;
+        let lastChar = expression.slice(-1);
+
+        if (btnValue === "=") {
+            try {
+                // Replace occurrences of √number with Math.sqrt(number)
+                let safeExpression = expression.replace(/√(\d+(\.\d+)?)/g, 'Math.sqrt($1)');
+                inputValue.innerText = eval(safeExpression);
+            } catch (error) {
+                inputValue.innerText = "Error";
+            }
+        } else if (btnValue === "AC") {
+            inputValue.innerText = "0";
+        } else if (btnValue === "DEL") {
+            if (inputValue.innerText === "Error") // Avoid error message bug
+                inputValue.innerText = "0";
+            else inputValue.innerText = expression.slice(0, -1) || "0";
+        } else if (btnValue === "+/-") {
+            if (inputValue.innerText!== "0"){
+                if (expression.startsWith("-")) {
+                    inputValue.innerText = expression.slice(1);
+                } else {
+                    inputValue.innerText = "-" + expression;
+                }
+            }
+            
+        } else {
+            // Prevent multiple consecutive operators, except allow "+" or "-" after "√"
+            if ("+-*/%√".includes(btnValue) && "+-*/%√".includes(lastChar)) {
+                // Allow "+" or "-" after "√"
+                if ((lastChar === "√") && (btnValue === "+" || btnValue === "-")) {
+                    // allow
+                } else {
+                    return; // prevent multiple operators
+                }
+            }
+            if (inputValue.innerText === "0") {
+                inputValue.innerText = "";
+            }
+
+            if (btnValue === "√") {
+                // Show "√" on screen, but prevent multiple consecutive "√"
+                // Allow summing and subtracting after √, but prevent multiple consecutive "√"
+                if (lastChar === "√") {
+                    return;
+                }
+                inputValue.innerText += "√";
+                return; // Prevent appending another "√"
+            }
+
+            inputValue.innerText += btnValue;
         }
-        inputValue.value += e.target.innerText.trim();
     });
 });
+
+document.querySelectorAll(".numbers").forEach(function(item) {
+    item.addEventListener("click", function(e) {
+        if (inputValue.innerText === "0") {
+            inputValue.innerText = "";
+        }
+        inputValue.innerText += e.target.innerText.trim();
+    });
+});
+
 
 function menuOptions() {
-  const x = document.getElementById("menuOpts1_2");
+  const x = document.getElementById("myLinks");
   x.style.display = (x.style.display === "block") ? "none" : "block";
 }
 
@@ -266,13 +131,7 @@ function closeWebcam() {
     }
 }
 
-// Factorial function for "n!"
-function factorial(n) {
-    if (n < 0) return "Error";
-    if (n === 0 || n === 1) return 1;
-    let result = 1;
-    for (let i = 2; i <= n; i++) {
-        result *= i;
-    }
-    return result;
-}
+document.getElementById('burgerMenu').addEventListener('click', () => {
+  const content = document.getElementById('content');
+  content.classList.toggle('hidden');
+});
