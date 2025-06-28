@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="css/style.css">
 </head>   
 <body class="theme_1"> <!--or theme_1-->
-    <nav class="navbar">
+    <nav id="navbar" class="navbar">
         <div class="logo">Calculator</div>
         <div id="menuOpts1_1">
             <button type="button" onclick="menuOptions()" aria-label="Open navigation menu" style="background:none;border:none;padding:0;float:right;">
@@ -27,7 +27,7 @@
                         <span>YT Music</span>
                         <button onclick="document.getElementById('ytMusicPopup').style.display='none'" style="background:none; border:none; color:white; font-size:18px; cursor:pointer;">&times;</button>
                     </div>
-                    <iframe width="250" height="140" src="https://music.youtube.com/watch?v=Igumc9Qf2Yc&si=A1-gmGSNwlNMv6Fq" title="YouTube Music Playlist" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                    <iframe width="250" height="140" src="https://music.youtube.com/embed/Igumc9Qf2Yc&si=A1-gmGSNwlNMv6Fq" title="YouTube Music Playlist" allow="autoplay; encrypted-media" allowfullscreen></iframe>
                 </div>
                 <button id="ytBtn" type="button" onclick="document.getElementById('ytMusicPopup').style.display='block'" aria-label="Open YT Music Player">
                     <i id="YT_ICO" class="fa fa-music" style="display: none"></i>
@@ -47,7 +47,7 @@
                 
             </div>
             <ul class="nav-links">
-                <li><a href="simple_calc.html">Switch to Simple Mode</a></li>
+                <button id="modeSwitch" onclick="modeSwitch()" onkeydown="if(event.key==='Enter'||event.key===' '){modeSwitch();}" style="background:none;border:none;color:inherit;font:inherit;cursor:pointer;">Switch to Simple Mode</button>
             </ul>
         </nav>
         <div class="calc-container">  
@@ -62,6 +62,8 @@
                                 <option class="opt_Th" value="2">Dark</option>
                                 <option class="opt_Th" value="3">Light ColorFul</option>
                                 <option class="opt_Th" value="4">Dark ColorFul</option>
+                                <option class="opt_Th" value="5">Bolso</option>
+                                <option class="opt_Th" value="6">Manya</option>
                             </select>
                         </div>
                     </th>
@@ -70,60 +72,62 @@
             <tr>
                 <td colspan="4" style="text-align:left;"></td>
             </tr>
-            <tr id="tr0">
-            </tr>
-            <tr id="tr1" class="calc-text">
+            <tr id="tr0" class="calc-text">
                 <td colspan="4" style="text-align:right;">
-                    <textarea name="input-value" id="inputValue" style="margin:0;">0</textarea>
+                    <textarea name="input-value" id="inputValue"></textarea>
                 </td>
             </tr>
             <tr id="tr1">
-                <td id="pi" type="btn" class="operators" data-value="π">π</td>
-                <td id="mod" type="btn" class="operators" data-value="%">%</td>
-                <td id="ac" type="btn" class="operators" data-value="AC">AC</td>
-                <td id="del" type="btn" class="operators" data-value="DEL">DEL</td>
-                <td id="erase" type="btn" class="operators" data-value="ERASE">&#9003</td>
+                <td id="tr1_0" name="mod_1" type="btn" class="repeated-operators" data-value="%">%</td>
+                <td id="tr1_1" name="2nd" type="btn" class="other-operators">2<sup>nd</sup></td>
+                <td id="tr1_2" name="pi" type="btn" class="other-operators" data-value="π">π</td>
+                <td id="tr1_3" name="e" type="btn" class="other-operators">e</td>
+                <td id="tr1_4" name="ac" type="btn" class="operators" data-value="AC">AC</td>
+                <td id="tr1_5" name="del" type="btn" class="operators" data-value="DEL">C</td>
+                <td id="tr1_6" name="erase" type="btn" class="operators" data-value="ERASE">&#9003</td>
             </tr>
             <tr id="tr2">
-                <td type="btn" class="operators">2<sup>nd</sup></td>
-                <td type="btn" class="operators">π</td>
-                <td type="btn" class="operators">e</td>
-                <td type="btn" class="operators">c</td>
-                <td type="btn" class="operators">|x|</td>
+                <td id="tr2_1" name="sqr2" type="btn" class="operators" data-value="x^2">x²</td>
+                <td id="tr2_2" name="oneDiv" type="btn" class="operators" data-value="1/x">1/x</td>
+                <td id="tr2_3" name="sqrt" type="btn" class="repeated-operators" data-value="√">√</td>
+                <td id="tr2_4" name="abs" type="btn" class="other-operators" data-value="abs()">|x|</td>
+                <td id="tr2_5" name="exp" type="btn" class="other-operators" data-value=",e+">exp</td><!--m,e+n-->
+                <td id="tr2_6" name="mod_2" type="btn" class="repeated-operators" data-value="%">%</td>
+                <td id="tr2_7" name="div" type="btn" class="operators" data-value="/">/</td>
             </tr>
             <tr id="tr3">
-                <td id="cubeRoot" type="btn" class="operators">∛x</td>
-                <td id="oneDiv" type="btn" class="operators" data-value="1/x">1/x</td>
-                <td id="sqr2" type="btn" class="operators" data-value="x^2">x²</td>
-                <td id="sqrt" type="btn" class="operators" data-value="√">√</td>
-                <td id="div" type="btn" class="operators" data-value="/">/</td>
+                <td id="tr3_1" name="sqrt" type="btn" class="repeated-operators" data-value="√">√</td>
+                <td id="tr3_2" name="(" type="btn" class="other-operators" data-value="(">(</td>
+                <td id="tr3_3" name=")" type="btn" class="other-operators" data-value=")">)</td>
+                <td id="tr3_4" name="fact" type="btn" class="other-operators" data-value="n!">n!</td>
+                <td id="tr3_5" name="div" type="btn" class="operators" data-value="/">/</td>
             </tr>
             <tr id="tr4">
-                <td id="x_Pow_y" type="btn" class="operators">x<sup>y</sup></td>
-                <td id="n7" type="btn" class="numbers" data-value="7">7</td>
-                <td id="n8" type="btn" class="numbers" data-value="8">8</td>
-                <td id="n9" type="btn" class="numbers" data-value="9">9</td>
-                <td id="mult" type="btn" class="operators" data-value="*">*</td>
+                <td id="tr4_1" name="x_Pow_y" type="btn" class="other-operators">x<sup>y</sup></td>
+                <td id="tr4_2" name="n7" type="btn" class="numbers" data-value="7">7</td>
+                <td id="tr4_3" name="n8" type="btn" class="numbers" data-value="8">8</td>
+                <td id="tr4_4" name="n9" type="btn" class="numbers" data-value="9">9</td>
+                <td id="tr4_5" name="mult" type="btn" class="operators" data-value="*">*</td>
             </tr>
             <tr id="tr5">
-                <td id="10x" type="btn" class="operators">10<sup>x</sup></td>
-                <td id="n4" type="btn" class="numbers" data-value="4">4</td>
-                <td id="n5" type="btn" class="numbers" data-value="5">5</td>
-                <td id="n6" type="btn" class="numbers" data-value="6">6</td>
-                <td id="minus" type="btn" class="operators" data-value="-">-</td>
+                <td id="tr5_1" name="10x" type="btn" class="other-operators">10<sup>x</sup></td>
+                <td id="tr5_2" name="n4" type="btn" class="numbers" data-value="4">4</td>
+                <td id="tr5_3" name="n5" type="btn" class="numbers" data-value="5">5</td>
+                <td id="tr5_4" name="n6" type="btn" class="numbers" data-value="6">6</td>
+                <td id="tr5_5" name="minus" type="btn" class="operators" data-value="-">-</td>
             </tr>
             <tr id="tr6">
-                <td id="log" type="btn" class="operators">log</td>
-                <td id="n1" type="btn" class="numbers" data-value="1">1</td>
-                <td id="n2" type="btn" class="numbers" data-value="2">2</td>
-                <td id="n3" type="btn" class="numbers" data-value="3">3</td>
-                <td id="plus" type="btn" class="operators" data-value="+">+</td>   
+                <td id="tr6_1" name="log" type="btn" class="other-operators">log</td>
+                <td id="tr6_2" name="n1" type="btn" class="numbers" data-value="1">1</td>
+                <td id="tr6_3" name="n2" type="btn" class="numbers" data-value="2">2</td>
+                <td id="tr6_4" name="n3" type="btn" class="numbers" data-value="3">3</td>
+                <td id="tr6_5" name="plus" type="btn" class="operators" data-value="+">+</td>   
             </tr>
             <tr id="tr7">
-                <td id="ln" type="btn" class="operators">ln</td>
-                <td id="sign" type="btn" class="operators" data-value="+/-">+/-</td>
-                <td id="zero" type="btn" class="numbers" data-value="0">0</td>
-                <td id="dot" type="btn" class="operators" data-value=".">.</td>
+                <td id="tr7_1" name="ln" type="btn" class="other-operators">ln</td>
+                <td id="tr7_2" name="sign" type="btn" class="operators" data-value="+/-">+/-</td>
+                <td id="tr7_3" name="zero" type="btn" class="numbers" data-value="0">0</td>
+                <td id="tr7_4" name="dot" type="btn" class="operators" data-value=".">.</td>
                 <td id="equal" type="btn" class="operators" data-value="=">=</td>
             </tr>
         </table>

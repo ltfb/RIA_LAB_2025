@@ -2,47 +2,36 @@ const inputValue = document.getElementById('inputValue');
 
 let justEvaluated = false;
 
-document.querySelectorAll(".operators, .other-operators").forEach(function(item) {
-    item.addEventListener("click", function(e) {
-        const btnValue = e.target.innerText.trim();
-        let expression = inputValue.value;
-        let lastChar = expression.slice(-1);
 
-        switch (btnValue) {
-            case "=": {
-            if (expression.trim().toUpperCase() === "VS,") {
-                console.log("EASTER EGG detected!");
+function calcFunctions(e, customValue = null) {
+    const btnValue = customValue || e?.target?.innerText?.trim();
+    let expression = inputValue.value;
+    let lastChar = expression.slice(-1);
+
+    switch (btnValue) {
+        case "=": {
+            const expr = expression.trim().toUpperCase();
+            if (expr === "VS,") {
                 document.getElementById('WEBCAM_ICO').style.display = "block";
                 inputValue.value = "🎉 Surprise!";
                 justEvaluated = true;
-                return; // Exit early after handling easter egg
-            } else if (expression.trim().toUpperCase() === "EASTEREGG"){
-                console.log("EASTER EGG detected!");
-                inputValue.value = "🎉 Surprise!";
+                return;
+            } else if (expr === "EASTEREGG") {
                 document.getElementById('YT_ICO').style.display = "block";
+                inputValue.value = "🎉 Surprise!";
                 justEvaluated = true;
-                return; // Exit early after handling easter egg
+                return;
             }
+
             try {
-                // Only allow numbers, operators, parentheses, decimal points, sqrt, and square
                 let safeExpr = expression
-                    // Replace √number or √(expression) with Math.sqrt(number/expression)
-                    .replace(/√(\d+(\.\d+)?|\([^()]*\))/g, (match, p1) => {
-                        return `Math.sqrt(${p1})`;
-                    })
-                    // Replace number² or (expression)² with Math.pow(number/expression, 2)
-                    .replace(/(\d+(\.\d+)?|\([^()]*\))²/g, (match, p1) => {
-                        return `Math.pow(${p1},2)`;
-                    })
+                    .replace(/√(\d+(\.\d+)?|\([^()]*\))/g, (_, value) => `Math.sqrt(${value})`)
+                    .replace(/(\d+(\.\d+)?|\([^()]*\))²/g, (_, value) => `Math.pow(${value},2)`)
                     .replace(/÷/g, "/")
                     .replace(/×/g, "*");
-                    // Evaluate using arithmetic only, no eval or Function for user input
-                    // Only allow numbers, operators, parentheses, decimal points, sqrt, and square
-                    // Already replaced √ and ² above, so safeExpr should be safe for Function
-                // Prevent code injection by allowing only safe characters
-                if (!/^[\d+\-*/()., Mathsqrtpowy]+$/.test(safeExpr)) {
-                    throw new Error("Unsafe expression");
-                }
+
+                // Wrap raw numbers in parentheses
+                safeExpr = safeExpr.replace(/(?<![\w.])(\d+(\.\d+)?)(?![\w.])/g, '($1)');
 
                 let result = Function('"use strict"; return (' + safeExpr + ')')();
                 inputValue.value = isNaN(result) ? "Error" : result;
@@ -51,90 +40,158 @@ document.querySelectorAll(".operators, .other-operators").forEach(function(item)
                 inputValue.value = "Error";
                 justEvaluated = true;
             }
-
             break;
         }
-            case "AC":
+
+        case "AC":
+        case "C":
+            inputValue.value = "0";
+            justEvaluated = false;
+            break;
+
+        case "⌫":
+            if (
+                expression === "" ||
+                expression === "Error" ||
+                expression === "NaN" ||
+                expression === "Infinity" ||
+                expression === "🎉 Surprise!" ||
+                expression === "0"
+            ) {
                 inputValue.value = "0";
-                justEvaluated = false;
-                break;
+            } else {
+                let newText = expression.slice(0, -1);
+                inputValue.value = newText === "" ? "0" : newText;
+            }
+            justEvaluated = false;
+            break;
 
-            case "DEL":
-            case "⌫":
-                expression = inputValue.value;
-                if (
-                    expression === "" ||
-                    expression === "Error" ||
-                    expression === "NaN" ||
-                    expression === "0"
-                ) {
-                    inputValue.value = "0";
+        case "1/x":
+            try {
+                let value = parseFloat(expression);
+                inputValue.value = (!isNaN(value) && value !== 0) ? (1 / value) : "Error";
+                justEvaluated = true;
+            } catch (error) {
+                inputValue.value = "Error";
+                console.log("Error: ", error);
+                justEvaluated = true;
+            }
+            break;
+
+        case "x²":
+            try {
+                let value = parseFloat(expression);
+                inputValue.value = !isNaN(value) ? value * value : "Error";
+                justEvaluated = true;
+            } catch (error) {
+                inputValue.value = "Error";
+                console.log("Error: ", error);
+                justEvaluated = true;
+            }
+            break;
+        
+        case "+/-":
+            if (inputValue.value !="" && inputValue.value !== "0" && inputValue.value !== "Error" && inputValue.value !== "NaN") {
+                if (inputValue.value.startsWith("-")) {
+                    inputValue.value = inputValue.value.slice(1);
                 } else {
-                    let newText = expression.slice(0, -1);
-                    inputValue.value = newText === "" ? "0" : newText;
+                    inputValue.value = "-" + inputValue.value;
+                }
+            }
+        break;
+
+        case "n!":
+            try {
+                let value = parseInt(expression);
+                if (isNaN(value)) throw new Error("Invalid input");
+                inputValue.value = factorial(value);
+                justEvaluated = true;
+            } catch (error) {
+                inputValue.value = "Error";
+                justEvaluated = true;
+            }
+            break;
+        case "π":
+            inputValue.value += Math.PI;
+            justEvaluated = true;
+            break;
+        case "e":
+            inputValue.value += Math.E;
+            justEvaluated = true;
+            break;
+        case "log":
+            try {
+                let value = parseFloat(expression);
+                if (isNaN(value) || value <= 0) {
+                    inputValue.value = "Error";
+                } else {
+                    inputValue.value += Math.log10(value);
+                }
+                justEvaluated = true;
+            } catch (error) {
+
+                inputValue.value = "Error";
+                console.log("Error: ", error);
+                justEvaluated = true;
+            }
+            break;
+        case "ln":
+            try {
+                let value = parseFloat(expression);
+                if (isNaN(value) || value <= 0) {
+                    inputValue.value = "Error";
+                } else {
+                    inputValue.value += Math.log(value);
+                }
+                justEvaluated = true;
+            } catch (error) {
+                inputValue.value = "Error";
+                console.log("Error: ", error);
+                justEvaluated = true;
+            }
+            break; 
+        default:
+            if (justEvaluated) {
+                if (!isNaN(btnValue) || btnValue === "√" || btnValue === "x²" || btnValue === "1/x" ) {
+                    if (btnValue === "x²") {
+                        inputValue.value = inputValue.value + "²";
+                    } else if (btnValue === "√") {
+                        inputValue.value = "√";
+                    } else {
+                        inputValue.value = btnValue;
+                    }
+                } else {
+                    inputValue.value += btnValue;
                 }
                 justEvaluated = false;
-                break;
+                return;
+            }
 
-            case "1/x":
-                try {
-                    let value = parseFloat(expression);
-                    if (!isNaN(value) && value !== 0) {
-                        inputValue.value = 1 / value;
-                    } else {
-                        inputValue.value = "Error";
-                    }
-                    justEvaluated = true;
-                } catch (error) {
-                    inputValue.value = "Error";
-                    justEvaluated = true;
-                }
-                break;
+            if ("+-*/".includes(btnValue) && "+-*/".includes(lastChar)) return;
 
-            case "x²":
-                try {
-                    let value = parseFloat(expression);
-                    if (!isNaN(value)) {
-                        inputValue.value = value * value;
-                    } else {
-                        inputValue.value = "Error";
-                    }
-                    justEvaluated = true;
-                } catch (error) {
-                    inputValue.value = "Error";
-                    justEvaluated = true;
-                }
-                break;
+            if (inputValue.value === "0") inputValue.value = "";
 
-            default:
-                if (justEvaluated) {
-                    if (!isNaN(btnValue) || btnValue === "√" || btnValue === "x²" || btnValue === "1/x") {
-                        if (btnValue === "x²") {
-                            inputValue.value = inputValue.value + "²";
-                        } else if (btnValue === "√") {
-                            inputValue.value = "√";
-                        } else {
-                            inputValue.value = btnValue;
-                        }
-                    } else {
-                        inputValue.value += btnValue;
-                    }
-                    justEvaluated = false;
-                    return;
-                }
+            inputValue.value += btnValue;
+            justEvaluated = false;
+    }
+}
 
-                if ("+-*/".includes(btnValue) && "+-*/".includes(lastChar)) {
-                    return;
-                }
-
-                if (inputValue.value === "0") {
-                    inputValue.value = "";
-                }
-
-                inputValue.value += btnValue;
-                justEvaluated = false;
-        }
+// Attach click event to each button
+document.querySelectorAll(".operators, .other-operators").forEach(function (item) {
+    item.addEventListener("click", function (e) {
+        calcFunctions(e);
     });
+});
+
+// Attach Enter key handler globally
+document.addEventListener("keydown", function (event) {
+    if (event.key === "Enter" && document.activeElement === inputValue) {
+        event.preventDefault(); // Prevent newline
+        calcFunctions(null, "=");
+        inputValue.value = inputValue.value.replace(/Enter$/, ""); // Remove if ends with Enter
+        console.log(inputValue.value + ".");
+        console.log("Enter key pressed");
+    }
 });
 
 document.querySelectorAll(".numbers").forEach(function(item) { 
@@ -207,4 +264,15 @@ function closeWebcam() {
         video.srcObject.getTracks().forEach(track => track.stop());
         video.srcObject = null;
     }
+}
+
+// Factorial function for "n!"
+function factorial(n) {
+    if (n < 0) return "Error";
+    if (n === 0 || n === 1) return 1;
+    let result = 1;
+    for (let i = 2; i <= n; i++) {
+        result *= i;
+    }
+    return result;
 }

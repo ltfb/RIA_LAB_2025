@@ -27,7 +27,8 @@
                         <span>YT Music</span>
                         <button onclick="document.getElementById('ytMusicPopup').style.display='none'" style="background:none; border:none; color:white; font-size:18px; cursor:pointer;">&times;</button>
                     </div>
-                    <iframe width="250" height="140" src="https://music.youtube.com/watch?v=Igumc9Qf2Yc&si=A1-gmGSNwlNMv6Fq" title="YouTube Music Playlist" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                    <iframe width="250" height="140" src="https://music.youtube.com/embed/Igumc9Qf2Yc&si=A1-gmGSNwlNMv6Fq" title="YouTube Music Playlist" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                    <!--Change watch?v to embed/--> 
                 </div>
                 <button id="ytBtn" type="button" onclick="document.getElementById('ytMusicPopup').style.display='block'" aria-label="Open YT Music Player">
                     <i id="YT_ICO" class="fa fa-music" style="display: none"></i>
@@ -67,14 +68,11 @@
                     </th>
         </div>
             </tr>
-            <tr>
-                <td colspan="4" style="text-align:left;"></td>
-            </tr>
             <tr id="tr0">
             </tr>
             <tr id="tr1" class="calc-text">
                 <td colspan="4" style="text-align:right;">
-                    <textarea name="input-value" id="inputValue" style="margin:0;">0</textarea>
+                    <textarea name="input-value" id="inputValue"></textarea>
                 </td>
             </tr>
             <tr id="tr2">
