@@ -90,6 +90,9 @@ body {
   border-radius: 8px;
 }
 
+.calc-keys{
+  border-radius:10px; 
+}
 
 /* Theme 1 (light) */
 body.theme_1, body.theme_3 {
@@ -435,6 +438,150 @@ body.theme_2 .repeated-operators:active, body.theme_4 .repeated-operators:active
     background-color: #22283B;
 }
 
+/*Classic theme*/
+body.theme_7 #navbar{
+    background: linear-gradient(90deg, #000080 0%,#1082CF 100%);
+    color: white;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+}
+
+
+body.theme_7 #themes {
+  background-color: white;
+  color: #333;
+  border-radius: 0px;
+  border: 2px solid white;
+  border-style: outset;
+}
+
+body.theme_7 {
+    background-color: #C0C0C0;
+    color: #333;
+    border-radius: 0px;
+    border: 2px solid white;
+    border-style: outset;
+}
+body.theme_7 i {
+    color: black;
+    background-color: #C0C0C0;
+    font-weight: bold;
+    font-size: 24px;  
+    border-radius: 0px;
+    border: 2px solid white;
+    border-style: outset;
+}
+body.theme_7 .calc-keys {
+    background-color: #C0C0C0;
+    color: #333;
+    border-radius: 0px;
+    border: 2px solid white;
+    border-style: outset;
+}
+body.theme_7 #inputValue {
+    background-color: white;
+    color: #000000;
+    border-radius: 0px;
+    border: 2px solid white;
+    border-style: inset;
+}
+body.theme_7 #equal {
+    background-color: #C0C0C0;
+    color: red;
+    border-radius: 0px;
+    border: 2px solid white;
+    border-style: outset;
+}
+
+body.theme_7 #equal:active {
+    background-color: #C0C0C0;
+    color: red;
+    border-radius: 0px;
+    border: 2px solid black;
+    border-style: outset;
+}
+
+body.theme_7 .numbers {
+    background-color: #C0C0C0;
+    color: blue;
+    border-radius: 0px;
+    border: 2px solid white;
+    border-style: outset;
+}
+body.theme_7 .numbers:active {
+    background-color: #C0C0C0;
+    color: #333;
+    border-radius: 0px;
+    border: 2px solid black;
+    border-style: outset;
+}
+body.theme_7 .operators, body.theme_7 .other-operators, body.theme_7 .repeated-operators {
+    background-color: #C0C0C0;
+    color: red;
+    border-radius: 0px;
+    border: 2px solid white;
+    border-style: outset;
+}
+body.theme_7 .operators:active, body.theme_7 .other-operators:active, body.theme_7 .repeated-operators:active {
+    background-color:#C0C0C0;
+    color: red;
+    border-radius: 0px;
+    border: 2px solid black;
+    border-style: outset;
+}
+/* Scroll bar*/
+body.theme_7 ::-webkit-scrollbar {
+  width: 18px;
+  background: #C0C0C0;
+  border-radius: 0;
+  border: 2px solid white;
+  border-style: outset;
+  color: black;
+}
+
+body.theme_7 ::-webkit-scrollbar-track {
+  background: #C0C0C0;
+  border-radius: 0;
+  border: 2px solid white;
+  border-style: outset;
+  color: black;
+}
+
+body.theme_7 ::-webkit-scrollbar-thumb {
+  background: #A9A9A9;
+  border-radius: 0;
+  border: 2px solid #fff;
+  border-style: outset;
+  box-shadow: inset 0 0 4px #888;
+  color: black;
+}
+
+body.theme_7 ::-webkit-scrollbar-button {
+  background: #C0C0C0;
+  border-radius: 0;
+  border: 2px solid white;
+  border-style: outset;
+  height: 18px;
+  width: 18px;
+  color: black;
+}
+
+body.theme_7 ::-webkit-scrollbar-button:vertical:decrement {
+  background: #C0C0C0 url("data:image/svg+xml;utf8,<svg width='18' height='18' xmlns='http://www.w3.org/2000/svg'><polygon points='9,5 15,13 3,13' fill='blue'/></svg>") no-repeat center;
+}
+
+body.theme_7 ::-webkit-scrollbar-button:vertical:increment {
+  background: #C0C0C0 url("data:image/svg+xml;utf8,<svg width='18' height='18' xmlns='http://www.w3.org/2000/svg'><polygon points='3,5 15,5 9,13' fill='blue'/></svg>") no-repeat center;
+}
+
+body.theme_7 ::-webkit-scrollbar-button:horizontal:decrement {
+  background: #C0C0C0 url("data:image/svg+xml;utf8,<svg width='18' height='18' xmlns='http://www.w3.org/2000/svg'><polygon points='5,9 13,3 13,15' fill='blue'/></svg>") no-repeat center;
+}
+
+body.theme_7 ::-webkit-scrollbar-button:horizontal:increment {
+  background: #C0C0C0 url("data:image/svg+xml;utf8,<svg width='18' height='18' xmlns='http://www.w3.org/2000/svg'><polygon points='13,9 5,3 5,15' fill='blue'/></svg>") no-repeat center;
+}
 
 /*Colorful light and dark theme*/
 
@@ -468,6 +615,42 @@ body.theme_3, body.theme_4 {
   #calcTitle {
     font-size: 1.6rem;
   }
+}
+
+/* 3D theme */
+body.theme_8 .numbers,
+body.theme_8 .operators,
+body.theme_8 .other-operators,
+body.theme_8 .repeated-operators,
+body.theme_8 #equal {
+  background-color: #d355be;
+  color: white;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 0 5px #5f1e54;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+body.theme_8 .numbers:hover,
+body.theme_8 .operators:hover,
+body.theme_8 .other-operators:hover,
+body.theme_8 .repeated-operators:hover,
+body.theme_8 #equal:hover {
+  box-shadow: 0 2px #d8a7d0;
+  transform: translateY(3px);
+}
+
+
+body.theme_8 .numbers:active,
+body.theme_8 .operators:active,
+body.theme_8 .other-operators:active,
+body.theme_8 .repeated-operators:active,
+body.theme_8 #equal:active {
+  box-shadow: 0 2px #d1b6cd;
+  transform: translateY(3px);
 }
 
 #calC {
@@ -627,6 +810,7 @@ button{
   color: #1A1A1B;
 
 }
+
 
 /* Navbar styles */
 .navbar {
