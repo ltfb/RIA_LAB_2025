@@ -149,7 +149,32 @@ function calcFunctions(e, customValue = null) {
                 console.log("Error: ", error);
                 justEvaluated = true;
             }
-            break; 
+            break;
+        
+        case "|x|":
+            try {
+                let value = parseFloat(expression);
+                if (isNaN(value)) throw new Error("Invalid input");
+                inputValue.value = Math.abs(value);
+                justEvaluated = true;
+            } catch (error) {
+                inputValue.value = "Error";
+                justEvaluated = true;
+            }
+            break;
+
+        case "exp":
+            try {
+                let value = parseFloat(expression);
+                if (isNaN(value)) throw new Error("Invalid input");
+                inputValue.value = Math.exp(value);
+                justEvaluated = true;
+            } catch (error) {
+                inputValue.value = "Error";
+                justEvaluated = true;
+            }
+            break;
+
         default:
             if (justEvaluated) {
                 if (!isNaN(btnValue) || btnValue === "√" || btnValue === "x²" || btnValue === "1/x" ) {

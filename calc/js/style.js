@@ -5,7 +5,7 @@ $(document).ready(function () {
   }
 
   // Automatically focus the textarea when the page loads
-  $("#inputValue").focus().attr("maxlength", 16);
+  $("#inputValue").focus();
 
   // Equal button visual feedback
   $("#equal")
@@ -21,7 +21,7 @@ $(document).ready(function () {
   // Theme switcher
   $("#themes").on("change", function () {
     const selected = $(this).val(); // "1", "2", "3" or "4"
-    $("body").removeClass("theme_1 theme_2 theme_3 theme_4 theme_5 theme_6").addClass("theme_" + selected);
+    $("body").removeClass("theme_1 theme_2 theme_3 theme_4 theme_5 theme_6 theme_7 theme_8").addClass("theme_" + selected);
 
     // Only remove inline styles related to themes, not those set by mode switching
     // For example, if you use inline styles for mode switching, don't remove them here
