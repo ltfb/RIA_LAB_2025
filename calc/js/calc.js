@@ -239,6 +239,9 @@ document.querySelectorAll(".numbers").forEach(function(item) {
 function menuOptions() {
   const x = document.getElementById("menuOpts1_2");
   x.style.display = (x.style.display === "block") ? "none" : "block";
+
+  const y = document.getElementById("bhabttn");
+  y.style.display = (y.style.display === "block") ? "none" : "block";
 }
 
 function openWebcam() {

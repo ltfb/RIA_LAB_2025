@@ -869,3 +869,40 @@ button{
   box-sizing: border-box;
   justify-self: stretch;
 }
+
+#formBhaskara {
+  background: #fff;
+  padding: 20px;
+  max-width: 300px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+#formBhaskara label {
+  display: block;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+#formBhaskara input {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+#formBhaskara button {
+  margin-top: 15px;
+  width: 100%;
+  padding: 10px;
+  background: #3498db;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#formBhaskara button:hover {
+  background: #2980b9;
+}
