@@ -175,19 +175,11 @@ function calcFunctions(e, customValue = null) {
             }
             break;
 
-        case "x^y":
-            if (inputValue.value === "0" || inputValue.value === "Error" || inputValue.value === "NaN") {
-                inputValue.value = "";
-            }
-            if (lastChar === "^") return; // Prevent multiple '^' in a row
-            inputValue.value += "^";
-            justEvaluated = false;
-            break;
         default:
             if (justEvaluated) {
                 if (!isNaN(btnValue) || btnValue === "√" || btnValue === "x²" || btnValue === "1/x" ) {
                     if (btnValue === "x²") {
-                        inputValue.value = inputValue.value^2;
+                        inputValue.value = inputValue.value + "²";
                     } else if (btnValue === "√") {
                         inputValue.value = "√";
                     } else {
@@ -200,7 +192,7 @@ function calcFunctions(e, customValue = null) {
                 return;
             }
 
-            if ("+-*/^".includes(btnValue) && "+-*/^".includes(lastChar)) return;
+            if ("+-*/".includes(btnValue) && "+-*/".includes(lastChar)) return;
 
             if (inputValue.value === "0") inputValue.value = "";
 
