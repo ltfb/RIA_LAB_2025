@@ -2,209 +2,144 @@ const inputValue = document.getElementById('inputValue');
 
 let justEvaluated = false;
 
-
-function calcFunctions(e, customValue = null) {
-    const btnValue = customValue || e?.target?.innerText?.trim();
-    let expression = inputValue.value;
-    let lastChar = expression.slice(-1);
+function allTheOperations(e, customValue = null) {
+    let btnValue = customValue || (e && e.target.innerText.trim());
+    let inputStr = inputValue.value;
 
     switch (btnValue) {
         case "=": {
-            const expr = expression.trim().toUpperCase();
-            if (expr === "VS,") {
-                document.getElementById('WEBCAM_ICO').style.display = "block";
-                inputValue.value = "🎉 Surprise!";
-                justEvaluated = true;
-                return;
-            } else if (expr === "EASTEREGG") {
-                document.getElementById('YT_ICO').style.display = "block";
-                inputValue.value = "🎉 Surprise!";
-                justEvaluated = true;
-                return;
+            let expr = inputStr.replace(/\s+/g, "");
+
+            // Easter eggs
+            if (expr.toUpperCase() === "EASTEREGG") {
+            document.getElementById('WEBCAM_ICO').style.display = "block";
+            inputValue.value = "🎉 Surprise!";
+            justEvaluated = true;
+            return;
+            } else if (expr.toUpperCase() === "YT") {
+            document.getElementById('YT_ICO').style.display = "block";
+            inputValue.value = "🎉 Surprise!";
+            justEvaluated = true;
+            return;
             }
 
             try {
-                let safeExpr = expression
-                    .replace(/√(\d+(\.\d+)?|\([^()]*\))/g, (_, value) => `Math.sqrt(${value})`)
-                    .replace(/(\d+(\.\d+)?|\([^()]*\))²/g, (_, value) => `Math.pow(${value},2)`)
-                    .replace(/÷/g, "/")
-                    .replace(/×/g, "*");
+            expr = expr.replace(/(\d+)!/g, (_, numStr) => {
+                const num = parseInt(numStr);
+                return factorial(num);
+            });
 
-                // Wrap raw numbers in parentheses
-                safeExpr = safeExpr.replace(/(?<![\w.])(\d+(\.\d+)?)(?![\w.])/g, '($1)');
+            expr = expr.replace(/(\d+|\([^()]*\))²/g, (_, base) => `Math.pow(${base}, 2)`);
+            expr = expr.replace(/(\d+|\([^()]*\))³/g, (_, base) => `Math.pow(${base}, 3)`);
+            expr = expr.replace(/(\d+|\([^()]*\))\^(\d+|\([^()]*\))/g, (_, base, exp) => {
+                return `Math.pow(${base}, ${exp})`;
+            });
+            expr = expr.replace(/√(\d+(\.\d+)?|\([^()]*\))/g, (_, inside) => `Math.sqrt(${inside})`);
+            expr = expr.replace(/∛(\d+|\([^()]*\))/g, (_, val) => `Math.cbrt(${val})`);
+            expr = expr.replace(/\|([^|]+)\|/g, (_, val) => `Math.abs(${val})`);
+            expr = expr.replace(/(?<![a-zA-Z0-9_.])e(?![a-zA-Z0-9_])/g, 'Math.E');
+            expr = expr.replace(/log\(/gi, "Math.log10(");
+            expr = expr.replace(/ln\(/gi, "Math.log(");
+            expr = expr.replace(/exp\(/gi, "Math.exp(");
 
-                let result = Function('"use strict"; return (' + safeExpr + ')')();
-                inputValue.value = isNaN(result) ? "Error" : result;
-                justEvaluated = true;
+            let result = Function(`"use strict"; return (${expr})`)();
+            inputValue.value = result;
+            console.log("Result:", result);
             } catch (error) {
-                inputValue.value = "Error";
-                justEvaluated = true;
+            console.error("Error evaluating expression:", error);
+            inputValue.value = "Error";
             }
             break;
         }
-
         case "AC":
         case "C":
-            inputValue.value = "0";
-            justEvaluated = false;
+            inputValue.value = "";
             break;
-
-        case "⌫":
-            if (
-                expression === "" ||
-                expression === "Error" ||
-                expression === "NaN" ||
-                expression === "Infinity" ||
-                expression === "🎉 Surprise!" ||
-                expression === "0"
-            ) {
-                inputValue.value = "0";
+        case "1/x":
+            try {
+                let val = parseFloat(inputValue.value);
+                if (val === 0) throw new Error("Divide by zero");
+                inputValue.value = 1 / val;
+            } catch {
+                inputValue.value = "Error";
+            }
+            break;
+        case "x²":
+            inputValue.value += "²";
+            break;
+        case "+/-":
+            if (inputValue.value.startsWith("-")) {
+                inputValue.value = inputValue.value.slice(1);
             } else {
-                let newText = expression.slice(0, -1);
+                inputValue.value = "-" + inputValue.value;
+            }
+            break;
+        case "n!":
+            inputValue.value += "!";
+            break;
+        case "π":
+            inputValue.value += Math.PI.toFixed(8);
+            break;
+        case "e":
+            inputValue.value += "e";
+            break;
+        case "log":
+            inputValue.value += "log(";
+            break;
+        case "ln":
+            inputValue.value += "ln(";
+            break;
+        case "|x|":
+            inputValue.value += "|";
+            break;
+        case "exp":
+            inputValue.value += "exp(";
+            break;
+        case "x^y":
+            if (!inputValue.value.endsWith("^") && inputValue.value !== "" && inputValue.value !== "Error") {
+                inputValue.value += "^";
+            }
+            break;
+        case "10^x":
+            if (!inputValue.value.endsWith("^") && inputValue.value !== "" && inputValue.value !== "Error") {
+                inputValue.value += "10^";
+            }
+            break;
+        case "√":
+            if (!inputValue.value.endsWith("√") && !inputValue.value.endsWith(")")) {
+                inputValue.value += "√";
+            }
+            break;
+        default:
+            inputValue.value += btnValue;
+            break;
+        case "⌫":
+            // Set all textareas to "0" if any of these cases
+            if (
+                inputValue.value === "" ||
+                inputValue.value === "Error" ||
+                inputValue.value === "NaN" ||
+                inputValue.value === "Infinity" ||
+                inputValue.value === "🎉 Surprise!" ||
+                inputValue.value === "0"
+            ) {
+                document.querySelectorAll("textarea").forEach(function (ta) {
+                    ta.value = "0";
+                });
+            } else {
+                let newText = inputValue.value.slice(0, -1);
                 inputValue.value = newText === "" ? "0" : newText;
             }
             justEvaluated = false;
             break;
-
-        case "1/x":
-            try {
-                let value = parseFloat(expression);
-                inputValue.value = (!isNaN(value) && value !== 0) ? (1 / value) : "Error";
-                justEvaluated = true;
-            } catch (error) {
-                inputValue.value = "Error";
-                console.log("Error: ", error);
-                justEvaluated = true;
-            }
-            break;
-
-        case "x²":
-            try {
-                let value = parseFloat(expression);
-                inputValue.value = !isNaN(value) ? value * value : "Error";
-                justEvaluated = true;
-            } catch (error) {
-                inputValue.value = "Error";
-                console.log("Error: ", error);
-                justEvaluated = true;
-            }
-            break;
         
-        case "+/-":
-            if (inputValue.value !="" && inputValue.value !== "0" && inputValue.value !== "Error" && inputValue.value !== "NaN") {
-                if (inputValue.value.startsWith("-")) {
-                    inputValue.value = inputValue.value.slice(1);
-                } else {
-                    inputValue.value = "-" + inputValue.value;
-                }
-            }
-        break;
-
-        case "n!":
-            try {
-                let value = parseInt(expression);
-                if (isNaN(value)) throw new Error("Invalid input");
-                inputValue.value = factorial(value);
-                justEvaluated = true;
-            } catch (error) {
-                inputValue.value = "Error";
-                justEvaluated = true;
-            }
-            break;
-        case "π":
-            inputValue.value += Math.PI;
-            justEvaluated = true;
-            break;
-        case "e":
-            inputValue.value += Math.E;
-            justEvaluated = true;
-            break;
-        case "log":
-            try {
-                let value = parseFloat(expression);
-                if (isNaN(value) || value <= 0) {
-                    inputValue.value = "Error";
-                } else {
-                    inputValue.value += Math.log10(value);
-                }
-                justEvaluated = true;
-            } catch (error) {
-
-                inputValue.value = "Error";
-                console.log("Error: ", error);
-                justEvaluated = true;
-            }
-            break;
-        case "ln":
-            try {
-                let value = parseFloat(expression);
-                if (isNaN(value) || value <= 0) {
-                    inputValue.value = "Error";
-                } else {
-                    inputValue.value += Math.log(value);
-                }
-                justEvaluated = true;
-            } catch (error) {
-                inputValue.value = "Error";
-                console.log("Error: ", error);
-                justEvaluated = true;
-            }
-            break;
-        
-        case "|x|":
-            try {
-                let value = parseFloat(expression);
-                if (isNaN(value)) throw new Error("Invalid input");
-                inputValue.value = Math.abs(value);
-                justEvaluated = true;
-            } catch (error) {
-                inputValue.value = "Error";
-                justEvaluated = true;
-            }
-            break;
-
-        case "exp":
-            try {
-                let value = parseFloat(expression);
-                if (isNaN(value)) throw new Error("Invalid input");
-                inputValue.value = Math.exp(value);
-                justEvaluated = true;
-            } catch (error) {
-                inputValue.value = "Error";
-                justEvaluated = true;
-            }
-            break;
-
-        default:
-            if (justEvaluated) {
-                if (!isNaN(btnValue) || btnValue === "√" || btnValue === "x²" || btnValue === "1/x" ) {
-                    if (btnValue === "x²") {
-                        inputValue.value = inputValue.value + "²";
-                    } else if (btnValue === "√") {
-                        inputValue.value = "√";
-                    } else {
-                        inputValue.value = btnValue;
-                    }
-                } else {
-                    inputValue.value += btnValue;
-                }
-                justEvaluated = false;
-                return;
-            }
-
-            if ("+-*/".includes(btnValue) && "+-*/".includes(lastChar)) return;
-
-            if (inputValue.value === "0") inputValue.value = "";
-
-            inputValue.value += btnValue;
-            justEvaluated = false;
     }
 }
 
 // Attach click event to each button
 document.querySelectorAll(".operators, .other-operators").forEach(function (item) {
     item.addEventListener("click", function (e) {
-        calcFunctions(e);
+        allTheOperations(e);
     });
 });
 
@@ -212,7 +147,7 @@ document.querySelectorAll(".operators, .other-operators").forEach(function (item
 document.addEventListener("keydown", function (event) {
     if (event.key === "Enter" && document.activeElement === inputValue) {
         event.preventDefault(); // Prevent newline
-        calcFunctions(null, "=");
+        allTheOperations(null, "=");
         inputValue.value = inputValue.value.replace(/Enter$/, ""); // Remove if ends with Enter
         console.log(inputValue.value + ".");
         console.log("Enter key pressed");
@@ -301,3 +236,4 @@ function factorial(n) {
     }
     return result;
 }
+

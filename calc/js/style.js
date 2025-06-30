@@ -1,5 +1,4 @@
-$(document).ready(function () {
-  // Warn if no .numbers exist
+$(document).ready(function () {  // Warn if no .numbers exist
   if ($(".numbers").length === 0) {
     console.warn('No elements with class "numbers" found.');
   }
@@ -16,8 +15,6 @@ $(document).ready(function () {
       $(this).removeClass("equal-active");
     });
 
-  });
-  
   // Theme switcher
   $("#themes").on("change", function () {
     const selected = $(this).val(); // "1", "2", "3" or "4"
@@ -34,22 +31,21 @@ $(document).ready(function () {
       .removeAttr("style")
       .removeAttr("data-theme-style");
   });
-// Set placeholder="0" for #inputValue on page load
-$("#inputValue").attr("placeholder", "0");
 
+  // Set placeholder="0" for #inputValue on page load
+  $("#inputValue").attr("placeholder", "0");
 
-// Set Simple Mode as default on page load
-document.addEventListener('DOMContentLoaded', function() {
-    // Change title to Simple Mode
-    var calcTitle = document.getElementById('calcTitle');
-    if (calcTitle) calcTitle.textContent = 'Simple Mode';
-    // Change button text to switch to Scientific Mode
-    var modeBtn = document.getElementById('modeSwitch');
-    if (modeBtn) modeBtn.textContent = 'Switch to Scientific Mode';
-    // If you have a function to actually switch modes, call it here
-    if (typeof modeSwitch === 'function') {
-        modeSwitch(true); // Pass a flag to force simple mode if your function supports it
-    }
+  // Set Simple Mode as default on page load
+  // Change title to Simple Mode
+  var calcTitle = document.getElementById('calcTitle');
+  if (calcTitle) calcTitle.textContent = 'Simple Mode';
+  // Change button text to switch to Scientific Mode
+  var modeBtn = document.getElementById('modeSwitch');
+  if (modeBtn) modeBtn.textContent = 'Switch to Scientific Mode';
+  // If you have a function to actually switch modes, call it here
+  if (typeof modeSwitch === 'function') {
+      modeSwitch(true); // Pass a flag to force simple mode if your function supports it
+  }
 });
 
 // Mode switcher
@@ -72,6 +68,10 @@ function modeSwitch(forceSimple = false) {
     $("#tr1_0").hide();
     $("#tr2_6").show();
     $("#tr1_5").hide();
+    for(let i = 2; i <= 7; i++) {
+      $(`#tr${i}_0`).hide();
+    }
+    $("#tr2_2").show();
     $("#tr2_3").hide();
     $("#tr3_1").show();
     $("#tr2_7").hide();
@@ -81,11 +81,41 @@ function modeSwitch(forceSimple = false) {
     $("#calcTitle").text("Simple Mode");
     $(".other-operators").hide();
     $("#tr1_0").show();
-    $("#tr2_6").hide();
     $("#tr1_5").show();
+    $("#tr2_0").hide();
+    $("#tr2_2").hide();
     $("#tr2_3").show();
     $("#tr3_1").hide();
     $("#tr2_7").show();
     $("#tr3_5").hide();
   }
+}
+
+
+// Show/hide rows when clicking on #tr1_1
+let functionsToggled = false;
+
+$("#tr1_1").on("click", function() {
+  functionsToggled = !functionsToggled;
+  for (let i = 2; i <= 7; i++) {
+    if (functionsToggled) {
+      $(`#tr${i}_0`).show();
+      $(`#tr${i}_1`).hide();
+    } else {
+      $(`#tr${i}_0`).hide();
+      $(`#tr${i}_1`).show();
+    }
+  }
+});
+
+function menuOptions() {
+    var menu = document.getElementById('menuOpts1_2');
+    var navLinks = document.getElementById('navLinks');
+    if (menu.style.display === 'none' || menu.style.display === '') {
+        menu.style.display = 'block';
+        navLinks.style.display = 'block';
+    } else {
+        menu.style.display = 'none';
+        navLinks.style.display = 'none';
+    }
 }

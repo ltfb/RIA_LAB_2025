@@ -1,0 +1,69 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Baskaras Calculator</title>
+    <!--<link rel="stylesheet" href="css/style.css">-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <!-- Link to the favicon -->
+      <link rel="icon" type="image/png" href="image/favicon.png">
+    <link rel="stylesheet" href="css/style.css">
+</head>   
+<body>
+    <nav id="navbar" class="navbar">
+        <div class="logo">Bhaskaras Calculator</div>
+        
+        <ul class="nav-links">
+            <a href="calc.html" >Basic/Scientific Calculator</a>
+        </ul>
+    </nav>
+    
+    <form id="formBhaskara">
+        <label for="a">a:</label>
+        <input type="number" id="a" required>
+
+        <label for="b">b:</label>
+        <input type="number" id="b" required>
+
+        <label for="c">c:</label>
+        <input type="number" id="c" required><br>
+
+        <button type="submit">Calcular</button>
+    </form>
+    <div id="resultado"></div>
+    
+    <script>
+        $('#formBhaskara').on('submit', function(e) {
+        e.preventDefault();
+
+        const a = parseFloat($('#a').val());
+        const b = parseFloat($('#b').val());
+        const c = parseFloat($('#c').val());
+
+        if (a === 0) {
+            $('#resultado').html("El valor de 'a' no puede ser 0.");
+            return;
+        }
+
+        const discriminante = b * b - 4 * a * c;
+
+        if (discriminante < 0) {
+            $('#resultado').html("No hay soluciones reales.");
+        } else if (discriminante === 0) {
+            const x = -b / (2 * a);
+            $('#resultado').html("Raíz doble: x = " + x.toFixed(3));
+        } else {
+            const x1 = (-b + Math.sqrt(discriminante)) / (2 * a);
+            const x2 = (-b - Math.sqrt(discriminante)) / (2 * a);
+            $('#resultado').html("x₁ = " + x1.toFixed(3) + "<br>x₂ = " + x2.toFixed(3));
+        }
+        });
+    </script>
+    <script src="js/style.js"></script>
+    <script type="text/javascript" src="js/calc.js"></script>
+</body>
+
+</html>

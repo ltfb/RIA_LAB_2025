@@ -7,11 +7,10 @@
     <!--<link rel="stylesheet" href="css/style.css">-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    
     <!-- Link to the favicon -->
-      <link rel="icon" type="image/png" href="image/favicon.png">
+    <link rel="icon" type="image/png" href="image/favicon.png">
     <link rel="stylesheet" href="css/style.css">
-</head>   
+</head>
 <body class="theme_1"> <!--or theme_1-->
     <nav id="navbar" class="navbar">
         <div class="logo">Calculator</div>
@@ -19,7 +18,6 @@
             <button type="button" onclick="menuOptions()" aria-label="Open navigation menu" style="background:none;border:none;padding:0;float:right;">
                 <i id="burgerMenu" class="fa fa-bars"></i>
             </button>
-    
             <!-- YouTube Music Player Popup (Left) -->
             <div id="menuOpts1_2" style="display: none;">
                 <div id="ytMusicPopup" style="display:none">
@@ -32,7 +30,6 @@
                 <button id="ytBtn" type="button" onclick="document.getElementById('ytMusicPopup').style.display='block'" aria-label="Open YT Music Player">
                     <i id="YT_ICO" class="fa fa-music" style="display: none"></i>
                 </button>
-                
                 <!-- Webcam Popup (Right) -->
                 <div id="webcamPopup" style="display:none">
                     <div style="display:flex; justify-content:space-between; align-items:center;">
@@ -42,34 +39,36 @@
                     <video id="webcamVideo" width="250" height="140" autoplay style="background:#000; border-radius:6px;"></video>
                 </div>
                 <button id="webcamBtn" type="button" onclick="openWebcam()" aria-label="Open Webcam">
-                    <i id="WEBCAM_ICO" class="fa fa-video-camera" style="display: none"> </i>
+                    <i id="WEBCAM_ICO" class="fa fa-video-camera" style="display: none"></i>
                 </button>
-                
             </div>
-            <ul class="nav-links">
+            <ul class="nav-links" id="navLinks" style="display: none;"></ul>
                 <button id="modeSwitch" onclick="modeSwitch()" onkeydown="if(event.key==='Enter'||event.key===' '){modeSwitch();}" style="background:none;border:none;color:inherit;font:inherit;cursor:pointer;">Switch to Simple Mode</button>
+                <a id="bhabttn" href="bhaskara.html" style="display: none;">Bhaskaras Calculator</a>
             </ul>
-        </nav>
-        <div class="calc-container">  
-            <table class="calc-keys">
+        </div>
+        
+    </nav>
+    <div class="calc-container">
+        <table class="calc-keys">
             <tr>
                 <th colspan="4" id="calcTitle" style="text-align:center;">Scientific Mode</th>
-            </tr>   
-                    <th colspan="4" id="opts_Th" style="text-align:center;">
-                        <div id="myLinks" style="display:inline-block; margin-left:8px;">
-                            <select id="themes" style="background-color:transparent; border:none; font-size:16px; padding:0; color:inherit;">
-                                <option class="opt_Th" value="1">Light</option>
-                                <option class="opt_Th" value="2">Dark</option>
-                                <option class="opt_Th" value="3">Light ColorFul</option>
-                                <option class="opt_Th" value="4">Dark ColorFul</option>
-                                <option class="opt_Th" value="5">Bolso</option>
-                                <option class="opt_Th" value="6">Manya</option>
-                                <option class="opt_Th" value="7">Classic</option>
-                                <option class="opt_Th" value="8">3D</option>
-                            </select>
-                        </div>
-                    </th>
-        </div>
+            </tr>
+            <tr>
+                <th colspan="4" id="opts_Th" style="text-align:center;">
+                    <div id="myLinks" style="display:inline-block; margin-left:8px;">
+                        <select id="themes" style="background-color:transparent; border:none; font-size:16px; padding:0; color:inherit;">
+                            <option class="opt_Th" value="1">Light</option>
+                            <option class="opt_Th" value="2">Dark</option>
+                            <option class="opt_Th" value="3">Light ColorFul</option>
+                            <option class="opt_Th" value="4">Dark ColorFul</option>
+                            <option class="opt_Th" value="5">Bolso</option>
+                            <option class="opt_Th" value="6">Manya</option>
+                            <option class="opt_Th" value="7">Classic</option>
+                            <option class="opt_Th" value="8">3D</option>
+                        </select>
+                    </div>
+                </th>
             </tr>
             <tr>
                 <td colspan="4" style="text-align:left;"></td>
@@ -81,7 +80,7 @@
             </tr>
             <tr id="tr1">
                 <td id="tr1_0" name="mod_1" type="btn" class="repeated-operators" data-value="%">%</td>
-                <td id="tr1_1" name="2nd" type="btn" class="other-operators">2<sup>nd</sup></td>
+                <td id="tr1_1" onclick="functionsSwitch()" onkeydown="if(event.key==='Enter'||event.key===' '){functionsSwitch();}" tabindex="0" name="2nd" type="btn" class="other-operators">2<sup>nd</sup></td>
                 <td id="tr1_2" name="pi" type="btn" class="other-operators" data-value="π">π</td>
                 <td id="tr1_3" name="e" type="btn" class="other-operators">e</td>
                 <td id="tr1_4" name="ac" type="btn" class="operators" data-value="AC">AC</td>
@@ -89,15 +88,17 @@
                 <td id="tr1_6" name="erase" type="btn" class="operators" data-value="ERASE">&#9003</td>
             </tr>
             <tr id="tr2">
+                <td id="tr2_0" name="sqr3" type="btn" class="operators" data-value="x^3">x³</td>
                 <td id="tr2_1" name="sqr2" type="btn" class="operators" data-value="x^2">x²</td>
                 <td id="tr2_2" name="oneDiv" type="btn" class="operators" data-value="1/x">1/x</td>
                 <td id="tr2_3" name="sqrt" type="btn" class="repeated-operators" data-value="√">√</td>
                 <td id="tr2_4" name="abs" type="btn" class="other-operators" data-value="abs()">|x|</td>
-                <td id="tr2_5" name="exp" type="btn" class="other-operators" data-value=",e+">exp</td><!--m,e+n-->
+                <td id="tr2_5" name="exp" type="btn" class="other-operators" data-value=",e+">exp</td>
                 <td id="tr2_6" name="mod_2" type="btn" class="repeated-operators" data-value="%">%</td>
                 <td id="tr2_7" name="div" type="btn" class="operators" data-value="/">/</td>
             </tr>
             <tr id="tr3">
+                <td id="tr3_0" name="sqrt3" type="btn" class="other-operators" data-value="∛">∛</td>
                 <td id="tr3_1" name="sqrt" type="btn" class="repeated-operators" data-value="√">√</td>
                 <td id="tr3_2" name="(" type="btn" class="other-operators" data-value="(">(</td>
                 <td id="tr3_3" name=")" type="btn" class="other-operators" data-value=")">)</td>
@@ -105,27 +106,31 @@
                 <td id="tr3_5" name="div" type="btn" class="operators" data-value="/">/</td>
             </tr>
             <tr id="tr4">
-                <td id="tr4_1" name="x_Pow_y" type="btn" class="other-operators">x<sup>y</sup></td>
+                <td id="tr4_0" name="x_Pow_y" type="btn" class="other-operators" data-value="x√y">ⁿ√</td>
+                <td id="tr4_1" name="x_Pow_y" type="btn" class="other-operators" data-value="x^y">x^y</td>
                 <td id="tr4_2" name="n7" type="btn" class="numbers" data-value="7">7</td>
                 <td id="tr4_3" name="n8" type="btn" class="numbers" data-value="8">8</td>
                 <td id="tr4_4" name="n9" type="btn" class="numbers" data-value="9">9</td>
                 <td id="tr4_5" name="mult" type="btn" class="operators" data-value="*">*</td>
             </tr>
             <tr id="tr5">
-                <td id="tr5_1" name="10x" type="btn" class="other-operators">10<sup>x</sup></td>
+                <td id="tr5_0" name="2x" type="btn" class="other-operators">2^x</td>
+                <td id="tr5_1" name="10x" type="btn" class="other-operators">10^x</td>
                 <td id="tr5_2" name="n4" type="btn" class="numbers" data-value="4">4</td>
                 <td id="tr5_3" name="n5" type="btn" class="numbers" data-value="5">5</td>
                 <td id="tr5_4" name="n6" type="btn" class="numbers" data-value="6">6</td>
                 <td id="tr5_5" name="minus" type="btn" class="operators" data-value="-">-</td>
             </tr>
             <tr id="tr6">
+                <td id="tr6_0" name="logyX" type="btn" class="other-operators" data-value="logyX">logyX</td>
                 <td id="tr6_1" name="log" type="btn" class="other-operators">log</td>
                 <td id="tr6_2" name="n1" type="btn" class="numbers" data-value="1">1</td>
                 <td id="tr6_3" name="n2" type="btn" class="numbers" data-value="2">2</td>
                 <td id="tr6_4" name="n3" type="btn" class="numbers" data-value="3">3</td>
-                <td id="tr6_5" name="plus" type="btn" class="operators" data-value="+">+</td>   
+                <td id="tr6_5" name="plus" type="btn" class="operators" data-value="+">+</td>
             </tr>
             <tr id="tr7">
+                <td id="tr7_0" name="e^x" type="btn" class="other-operators">e^x</td>
                 <td id="tr7_1" name="ln" type="btn" class="other-operators">ln</td>
                 <td id="tr7_2" name="sign" type="btn" class="operators" data-value="+/-">+/-</td>
                 <td id="tr7_3" name="zero" type="btn" class="numbers" data-value="0">0</td>
@@ -137,5 +142,4 @@
     <script src="js/style.js"></script>
     <script type="text/javascript" src="js/calc.js"></script>
 </body>
-
 </html>
