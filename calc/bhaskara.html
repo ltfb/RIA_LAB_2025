@@ -20,21 +20,21 @@
             <a href="calc.html" >Basic/Scientific Calculator</a>
         </ul>
     </nav>
-    
-    <form id="formBhaskara">
-        <label for="a">a:</label>
-        <input type="number" id="a" required>
+    <div class="center-container">
+        <form id="formBhaskara">
+            <label for="a">a:</label>
+            <input type="number" id="a" required>
 
-        <label for="b">b:</label>
-        <input type="number" id="b" required>
+            <label for="b">b:</label>
+            <input type="number" id="b" required>
 
-        <label for="c">c:</label>
-        <input type="number" id="c" required><br>
+            <label for="c">c:</label>
+            <input type="number" id="c" required><br>
 
-        <button type="submit">Calcular</button>
-    </form>
-    <div id="resultado"></div>
-    
+            <button type="submit">Calcular</button>
+        </form>
+        <div id="resultado"></div>
+    </div>
     <script>
         $('#formBhaskara').on('submit', function(e) {
         e.preventDefault();

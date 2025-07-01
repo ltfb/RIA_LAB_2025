@@ -5,49 +5,78 @@ let justEvaluated = false;
 function allTheOperations(e, customValue = null) {
     let btnValue = customValue || (e && e.target.innerText.trim());
     let inputStr = inputValue.value;
+    let btnid = e?.target?.id;
 
     switch (btnValue) {
         case "=": {
-            let expr = inputStr.replace(/\s+/g, "");
+            if (inputValue.value === "Error") {
+                inputValue.value = '';
+            } else {
+                let expr = inputStr;  // NO eliminar espacios aún
 
-            // Easter eggs
-            if (expr.toUpperCase() === "EASTEREGG") {
-            document.getElementById('WEBCAM_ICO').style.display = "block";
-            inputValue.value = "🎉 Surprise!";
-            justEvaluated = true;
-            return;
-            } else if (expr.toUpperCase() === "YT") {
-            document.getElementById('YT_ICO').style.display = "block";
-            inputValue.value = "🎉 Surprise!";
-            justEvaluated = true;
-            return;
-            }
+                // Easter eggs
+                if (expr.toUpperCase() === "EASTEREGG") {
+                    document.getElementById('WEBCAM_ICO').style.display = "block";
+                    inputValue.value = "🎉 Surprise!";
+                    justEvaluated = true;
+                    return;
+                } else if (expr.toUpperCase() === "YT") {
+                    document.getElementById('YT_ICO').style.display = "block";
+                    inputValue.value = "🎉 Surprise!";
+                    justEvaluated = true;
+                    return;
+                }
 
-            try {
-            expr = expr.replace(/(\d+)!/g, (_, numStr) => {
-                const num = parseInt(numStr);
-                return factorial(num);
-            });
+                try {
+                    expr = expr.replace(/(\d+)!/g, (_, numStr) => {
+                        const num = parseInt(numStr);
+                        return factorial(num);
+                    });
 
-            expr = expr.replace(/(\d+|\([^()]*\))²/g, (_, base) => `Math.pow(${base}, 2)`);
-            expr = expr.replace(/(\d+|\([^()]*\))³/g, (_, base) => `Math.pow(${base}, 3)`);
-            expr = expr.replace(/(\d+|\([^()]*\))\^(\d+|\([^()]*\))/g, (_, base, exp) => {
-                return `Math.pow(${base}, ${exp})`;
-            });
-            expr = expr.replace(/√(\d+(\.\d+)?|\([^()]*\))/g, (_, inside) => `Math.sqrt(${inside})`);
-            expr = expr.replace(/∛(\d+|\([^()]*\))/g, (_, val) => `Math.cbrt(${val})`);
-            expr = expr.replace(/\|([^|]+)\|/g, (_, val) => `Math.abs(${val})`);
-            expr = expr.replace(/(?<![a-zA-Z0-9_.])e(?![a-zA-Z0-9_])/g, 'Math.E');
-            expr = expr.replace(/log\(/gi, "Math.log10(");
-            expr = expr.replace(/ln\(/gi, "Math.log(");
-            expr = expr.replace(/exp\(/gi, "Math.exp(");
+                    // logyX(base, value) = log(value) / log(base)
+                    expr = expr.replace(/logyX\(\s*([^,]+?)\s*,\s*([^)]+?)\s*\)/g, (_, base, value) => {
+                        return `(Math.log10(${value}) / Math.log10(${base}))`;
+                    });
 
-            let result = Function(`"use strict"; return (${expr})`)();
-            inputValue.value = result;
-            console.log("Result:", result);
-            } catch (error) {
-            console.error("Error evaluating expression:", error);
-            inputValue.value = "Error";
+                    expr = expr.replace(/([a-zA-Z0-9_.]+|\([^()]*\))\^([a-zA-Z0-9_.]+|\([^()]*\))/g, (_, base, exp) => {
+                        return `Math.pow(${base}, ${exp})`;
+                    });
+                    
+                    
+                    // raiz n-esima
+                    expr = expr.replace(/ⁿ√\(\s*(\d+)\s*,\s*([^)]+)\)/g, (_, n, x) => {
+                        return `Math.pow(${x}, 1/${n})`;
+                    });
+                    // raiz cuadrada
+                    expr = expr.replace(/√(\d+(\.\d+)?|\([^()]*\))/g, (_, inside) => `Math.sqrt(${inside})`);
+                    // raiz cubica
+                    expr = expr.replace(/∛(\d+|\([^()]*\))/g, (_, val) => `Math.cbrt(${val})`);
+                    
+
+                    // absoluto
+                    expr = expr.replace(/\|([^|]+)\|/g, (_, val) => `Math.abs(${val})`);
+                    
+                    // e
+                    expr = expr.replace(/(^|[^a-zA-Z0-9_.])e([^a-zA-Z0-9_]|$)/g, '$1Math.E$2');
+                    
+                    // log natural
+                    expr = expr.replace(/log\(/gi, "Math.log10(");
+                    
+                    // Ln 
+                    expr = expr.replace(/ln\(/gi, "Math.log(");
+                    
+                    // exponencial
+                    expr = expr.replace(/exp\(/gi, "Math.exp(");
+
+                    expr = expr.replace(/\s+/g, "");  // ELIMINAR espacios después de reemplazos
+
+                    let result = Function(`"use strict"; return (${expr})`)();
+                    inputValue.value = result;
+                    console.log("Result:", result);
+                } catch (error) {
+                    console.error("Error evaluating expression:", error);
+                    inputValue.value = "Error";
+                }
             }
             break;
         }
@@ -57,6 +86,7 @@ function allTheOperations(e, customValue = null) {
             break;
         case "1/x":
             try {
+                if (inputValue.value === 'Error') throw new Error("Error");
                 let val = parseFloat(inputValue.value);
                 if (val === 0) throw new Error("Divide by zero");
                 inputValue.value = 1 / val;
@@ -65,56 +95,124 @@ function allTheOperations(e, customValue = null) {
             }
             break;
         case "x²":
-            inputValue.value += "²";
+            if (inputValue.value !== "Error" && inputValue.value !== "0" && inputValue.value !== "") {
+                inputValue.value += "^2";
+            } else {
+                inputValue.value = "Error";
+            }
             break;
         case "+/-":
-            if (inputValue.value.startsWith("-")) {
-                inputValue.value = inputValue.value.slice(1);
-            } else {
-                inputValue.value = "-" + inputValue.value;
+            if (inputValue.value !== "Error" && inputValue.value !== "" && inputValue.value !== "0") {
+                if (inputValue.value.startsWith("-")) {
+                    inputValue.value = inputValue.value.slice(1);
+                } else {
+                    inputValue.value = "-" + inputValue.value;
+                }
+            } else if (inputValue.value === "Error") {
+                inputValue.value = "Error";
             }
             break;
         case "n!":
-            inputValue.value += "!";
+            if (inputValue.value !== "Error" && inputValue.value !== "0" && inputValue.value !== "") {
+                inputValue.value += "!";
+            } else {
+                inputValue.value = "Error";
+            }
             break;
         case "π":
-            inputValue.value += Math.PI.toFixed(8);
+            if (inputValue.value !== "Error" && inputValue.value !== "0" && inputValue.value !== "") {
+                inputValue.value += Math.PI.toFixed(8);
+            } else {
+                inputValue.value = Math.PI.toFixed(8);
+            }
             break;
         case "e":
-            inputValue.value += "e";
+            if (inputValue.value === "Error" || inputValue.value === "0" || inputValue.value === "") {
+                inputValue.value = "e";
+            } else {
+                inputValue.value += "e";
+            }
             break;
         case "log":
-            inputValue.value += "log(";
+            if (inputValue.value === "Error" || inputValue.value === "0" || inputValue.value === "") {
+                inputValue.value = "log(";
+            } else {
+                inputValue.value += "log(";
+            }
             break;
         case "ln":
-            inputValue.value += "ln(";
+            if (inputValue.value === "Error" || inputValue.value === "0" || inputValue.value === "") {
+                inputValue.value = "ln(";
+            } else {
+                inputValue.value += "ln(";
+            }
             break;
         case "|x|":
-            inputValue.value += "|";
+            if (inputValue.value === "Error" || inputValue.value === "0" || inputValue.value === "") {
+                inputValue.value = "|";
+            } else {
+                inputValue.value += "|";
+            }
             break;
         case "exp":
-            inputValue.value += "exp(";
+            if (inputValue.value === "Error" || inputValue.value === "0" || inputValue.value === "") {
+                inputValue.value = "exp(";
+            } else {
+                inputValue.value += "exp(";
+            }
             break;
         case "x^y":
             if (!inputValue.value.endsWith("^") && inputValue.value !== "" && inputValue.value !== "Error") {
-                inputValue.value += "^";
+               inputValue.value += "^";
             }
             break;
         case "10^x":
-            if (!inputValue.value.endsWith("^") && inputValue.value !== "" && inputValue.value !== "Error") {
+            if (inputValue.value === "Error" || inputValue.value.endsWith("^") || inputValue.value === "0" || inputValue.value === "") {
+                inputValue.value = "10^";
+            } else {
                 inputValue.value += "10^";
             }
             break;
-        case "√":
-            if (!inputValue.value.endsWith("√") && !inputValue.value.endsWith(")")) {
-                inputValue.value += "√";
+        case "x³":
+            if (inputValue.value !== "Error" && inputValue.value !== "0" && inputValue.value !== "") {
+                inputValue.value += "^3";
+            } else {
+                inputValue.value = "Error";
+            }
+            break;
+        case "2^x":
+            if (inputValue.value === "Error" || inputValue.value.endsWith("^") || inputValue.value === "0" || inputValue.value === "") {
+                inputValue.value = "2^";
+            } else {
+                inputValue.value += "2^";
+            }
+            break;
+        case "e^x":
+            if (inputValue.value === "Error" || inputValue.value.endsWith("^") || inputValue.value === "0" || inputValue.value === "") {
+                inputValue.value = "e^";
+            } else {
+                inputValue.value += "e^";
+            }
+            break;
+        case "logyX(y,x)":
+            if (inputValue.value === "Error" || inputValue.value === "0" || inputValue.value === "") {
+                inputValue.value = "logyX(";
+            } else {
+                inputValue.value += "logyX(";
+            }
+            break;
+        case "ⁿ√(n,x)":
+            if (inputValue.value === "Error" || inputValue.value === "0" || inputValue.value === "") {
+                inputValue.value = "ⁿ√(";
+            } else {
+                inputValue.value += "ⁿ√(";
             }
             break;
         default:
-            inputValue.value += btnValue;
+            if (btnid === "tr1_1" || btnValue == "nd") break;
+            inputValue.value += btnValue;      
             break;
         case "⌫":
-            // Set all textareas to "0" if any of these cases
             if (
                 inputValue.value === "" ||
                 inputValue.value === "Error" ||
@@ -124,7 +222,7 @@ function allTheOperations(e, customValue = null) {
                 inputValue.value === "0"
             ) {
                 document.querySelectorAll("textarea").forEach(function (ta) {
-                    ta.value = "0";
+                    ta.value = "";
                 });
             } else {
                 let newText = inputValue.value.slice(0, -1);
@@ -132,12 +230,12 @@ function allTheOperations(e, customValue = null) {
             }
             justEvaluated = false;
             break;
-        
     }
 }
 
+
 // Attach click event to each button
-document.querySelectorAll(".operators, .other-operators").forEach(function (item) {
+document.querySelectorAll(".operators, .other-operators, .repeated-operators").forEach(function (item) {
     item.addEventListener("click", function (e) {
         allTheOperations(e);
     });
@@ -166,6 +264,8 @@ document.querySelectorAll(".numbers").forEach(function(item) {
 function menuOptions() {
   const x = document.getElementById("menuOpts1_2");
   x.style.display = (x.style.display === "block") ? "none" : "block";
+  const y = document.getElementById("bhabttn");
+  y.style.display = (y.style.display === "block") ? "none" : "block";
 }
 
 function openWebcam() {

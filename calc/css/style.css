@@ -3,14 +3,17 @@ body, html {
   margin: 0;
   padding: 0;
   height: 100%;
-  display: flex;
+  /*display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: center;*/
 }
 body {
-  font-family: Arial, sans-serif;
+  /*font-family: Arial, sans-serif;
   margin: 0;
-  padding: 20px;
+  padding: 20px;*/
+  font-family: Arial, sans-serif;
+  padding-top: 80px;
+  display: block;
 }
 
 /* 2. Calculator Structure */
@@ -603,6 +606,12 @@ body.theme_8 #equal:active {
 }
 .nav-links a:hover { color: #4CAF50; }
 
+#burgerMenu {
+    font-size: 20px;
+    cursor: pointer;
+    color: white;
+}
+
 /* 8. Miscellaneous/Overrides */
 button { background: none; border: none; }
 #calC {
@@ -621,3 +630,47 @@ button { background: none; border: none; }
 .opt_Th:optional { background-color: white; color: #1A1A1B; }
 .opt_Th:optional:checked { background-color: lightgray; color: #1A1A1B; }
 
+#formBhaskara {
+  background: #fff;
+  padding: 20px;
+  max-width: 300px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.center-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Usa toda la altura de la ventana */
+  background-color: #f2f2f2;
+}
+
+#formBhaskara label {
+  display: block;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+#formBhaskara input {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+#formBhaskara button {
+  margin-top: 15px;
+  width: 100%;
+  padding: 10px;
+  background: #3498db;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#formBhaskara button:hover {
+  background: #2980b9;
+}
