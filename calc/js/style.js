@@ -77,6 +77,11 @@ function modeSwitch(forceSimple = false) {
     $("#tr2_7").hide();
     $("#tr3_5").show();
   } else { // simple mode
+    if ($("#tr2_0").is(":visible")) {
+      console.log("tr2_0 is visible, hiding it now.");
+      $("#tr2_0").hide();
+      $("#tr2_1").show();
+    } else console.log("tr2_0 is not visible, showing it now.");
     $("#modeSwitch").text("Change to Scientific Mode");
     $("#calcTitle").text("Simple Mode");
     $(".other-operators").hide();

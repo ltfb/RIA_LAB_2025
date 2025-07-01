@@ -52,9 +52,28 @@ function allTheOperations(e, customValue = null) {
             break;
         }
         case "AC":
-        case "C":
-            inputValue.value = "";
-            break;
+            case "C":
+                inputValue.value = "";
+                break;
+        case "⌫":
+            // Set all textareas to "0" if any of these cases
+        if (
+            inputValue.value === "" ||
+            inputValue.value === "Error" ||
+            inputValue.value === "NaN" ||
+            inputValue.value === "Infinity" ||
+            inputValue.value === "🎉 Surprise!" ||
+            inputValue.value === ""
+        ) {
+            document.querySelectorAll("textarea").forEach(function (ta) {
+                ta.value = "";
+            });
+        } else {
+            let newText = inputValue.value.slice(0, -1);
+            inputValue.value = newText === "" ? "0" : newText;
+        }
+        justEvaluated = false;
+        break;
         case "1/x":
             try {
                 let val = parseFloat(inputValue.value);
@@ -78,10 +97,14 @@ function allTheOperations(e, customValue = null) {
             inputValue.value += "!";
             break;
         case "π":
-            inputValue.value += Math.PI.toFixed(8);
+            if (inputValue.value === "0" || inputValue.value === "Error" || inputValue.value === "NaN") {
+                inputValue.value = Math.PI.toFixed(8);
+            } else inputValue.value += Math.PI.toFixed(8);
             break;
         case "e":
-            inputValue.value += "e";
+            if (inputValue.value === "0" || inputValue.value === "Error" || inputValue.value === "NaN") {
+                inputValue.value = Math.E.toFixed(8);
+            } else inputValue.value += Math.E.toFixed(8);
             break;
         case "log":
             inputValue.value += "log(";
@@ -101,38 +124,47 @@ function allTheOperations(e, customValue = null) {
             }
             break;
         case "10^x":
-            if (!inputValue.value.endsWith("^") && inputValue.value !== "" && inputValue.value !== "Error") {
+            if (!inputValue.value.endsWith("^") && inputValue.value !== "Error") {
                 inputValue.value += "10^";
-            }
+            } else if (inputValue.value==="0")
+                inputValue.value = "10^";
+            break;
+        case "e^x":
+            if (!inputValue.value.endsWith("^") && inputValue.value !== "Error") {
+                inputValue.value += "e^";
+            } else if (inputValue.value==="0")
+                inputValue.value = "e^";
+            break;
+        case "2^x":
+            if (!inputValue.value.endsWith("^") && inputValue.value !== "Error") {
+                inputValue.value += "2^";
+            } else if (inputValue.value==="0")
+                inputValue.value = "2^"; 
             break;
         case "√":
             if (!inputValue.value.endsWith("√") && !inputValue.value.endsWith(")")) {
                 inputValue.value += "√";
             }
             break;
+        case "2nd":
+            // Toggle secondary functions UI, do not write "2" or "nd" in the textarea
+            // Example: toggle a class or show/hide extra buttons
+            inputValue.value = inputValue.value.replace(/2nd$/, ""); // Remove if ends with "2nd"
+            document.querySelectorAll(".other-operators").forEach(function (el) {
+                // Prevent any modification to the inputValue
+                el.addEventListener("click", function (e) {
+                    e.stopPropagation();
+                });
+            });
+            break;
+        case "0":
+            if (inputValue.value === "" || inputValue.value === "Error" || inputValue.value === "NaN" || inputValue.value === "Infinity" || inputValue.value === "🎉 Surprise!") {
+                inputValue.value = "";
+            }
+            break
         default:
             inputValue.value += btnValue;
             break;
-        case "⌫":
-            // Set all textareas to "0" if any of these cases
-            if (
-                inputValue.value === "" ||
-                inputValue.value === "Error" ||
-                inputValue.value === "NaN" ||
-                inputValue.value === "Infinity" ||
-                inputValue.value === "🎉 Surprise!" ||
-                inputValue.value === "0"
-            ) {
-                document.querySelectorAll("textarea").forEach(function (ta) {
-                    ta.value = "0";
-                });
-            } else {
-                let newText = inputValue.value.slice(0, -1);
-                inputValue.value = newText === "" ? "0" : newText;
-            }
-            justEvaluated = false;
-            break;
-        
     }
 }
 
