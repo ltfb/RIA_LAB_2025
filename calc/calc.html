@@ -10,47 +10,69 @@
     <!-- Link to the favicon -->
     <link rel="icon" type="image/png" href="image/favicon.png">
     <link rel="stylesheet" href="css/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+
 </head>
 <body class="theme_1"> <!--or theme_1-->
-    <nav id="navbar" class="navbar">
-        <div class="logo">Calculator</div>
-        <div id="menuOpts1_1">
-            <button type="button" onclick="menuOptions()" aria-label="Open navigation menu" style="background:none;border:none;padding:0;float:right;">
-                <i id="burgerMenu" class="fa fa-bars"></i>
+
+
+<nav id="navbar" class="navbar navbar-dark bg-dark fixed-top">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="calc.html">Calculator</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">Calculator</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+
+      <div class="offcanvas-body">
+        <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+          <li class="nav-item">
+            <button class="nav-link btn btn-link" id="bhaskaraBtn" type="button" onclick="switchToBhaskara()">
+              Switch to Bhaskara Mode
             </button>
-            <!-- YouTube Music Player Popup (Left) -->
-            <div id="menuOpts1_2" style="display: none;">
-                <div id="ytMusicPopup" style="display:none">
-                    <div style="display:flex; justify-content:space-between; align-items:center;">
-                        <span>YT Music</span>
-                        <button onclick="document.getElementById('ytMusicPopup').style.display='none'" style="background:none; border:none; color:white; font-size:18px; cursor:pointer;">&times;</button>
-                    </div>
-                    <iframe width="250" height="140" src="https://music.youtube.com/embed/Igumc9Qf2Yc&si=A1-gmGSNwlNMv6Fq" title="YouTube Music Playlist" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-                </div>
-                <button id="ytBtn" type="button" onclick="document.getElementById('ytMusicPopup').style.display='block'" aria-label="Open YT Music Player">
-                    <i id="YT_ICO" class="fa fa-music" style="display: none"></i>
-                </button>
-                <!-- Webcam Popup (Right) -->
-                <div id="webcamPopup" style="display:none">
-                    <div style="display:flex; justify-content:space-between; align-items:center;">
-                        <span>Webcam</span>
-                        <button onclick="closeWebcam()" style="background:none; border:none; color:white; font-size:18px; cursor:pointer;">&times;</button>
-                    </div>
-                    <video id="webcamVideo" width="250" height="140" autoplay style="background:#000; border-radius:6px;"></video>
-                </div>
-                <button id="webcamBtn" type="button" onclick="openWebcam()" aria-label="Open Webcam">
-                    <i id="WEBCAM_ICO" class="fa fa-video-camera" style="display: none"></i>
-                </button>
-            </div>
-            <ul class="nav-links" id="navLinks" style="display: none;"></ul>
-                <button id="modeSwitch" onclick="modeSwitch()" onkeydown="if(event.key==='Enter'||event.key===' '){modeSwitch();}" style="background:none;border:none;color:inherit;font:inherit;cursor:pointer;">Switch to Simple Mode</button>
-                <a id="bhabttn" href="bhaskara.html" style="display: none;">Bhaskaras Calculator</a>
-            </ul>
+          </li>
+          <li class="nav-item">
+            <button class="nav-link btn btn-link" id="modeSwitch" type="button" onclick="modeSwitch()" onkeydown="if(event.key==='Enter'||event.key===' '){modeSwitch();}">
+              Switch Simple Mode
+            </button>
+          </li>
+        </ul>
+
+        <!-- These elements must be outside the <ul> -->
+        <div id="webcamPopup" style="display:none">
+          <ul style="padding-left:0; margin-bottom:8px;">
+            <li class="nav-item" style="display:flex; justify-content:space-between; align-items:center; list-style:none;">
+              <span>Webcam</span>
+              <button onclick="closeWebcam()" style="background:none; border:none; color:white; font-size:18px; cursor:pointer;">&times;</button>
+            </li>
+          </ul>
+          <video id="webcamVideo" width="250" height="140" autoplay style="background:#000; border-radius:6px;"></video>
         </div>
-        
-    </nav>
-    <div class="calc-container">
-        <table class="calc-keys">
+
+        <button id="webcamBtn" style="display: none;" type="button" onclick="openWebcam()" aria-label="Open Webcam" class="btn btn-outline-light mt-2">
+          <i id="WEBCAM_ICO" class="fa fa-video-camera"></i> Open Webcam
+        </button>
+        <button id="ytBtn" style="display: none;" type="button" onclick="document.getElementById('ytMusicPopup').style.display='block'" aria-label="Open YT Music Player" class="btn btn-outline-light mt-2 ms-2">
+          <i id="YT_ICO" class="fa fa-music"></i> YT Music
+        </button>
+        <div id="ytMusicPopup" style="display: none; margin-top:10px;">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span>YT Music</span>
+            <button onclick="document.getElementById('ytMusicPopup').style.display='none'" style="background:none; border:none; color:white; font-size:18px; cursor:pointer;">&times;</button>
+            </div>
+            <iframe width="250" height="140" src="https://music.youtube.com/embed/Igumc9Qf2Yc&si=A1-gmGSNwlNMv6Fq" title="YouTube Music Playlist" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        </div>
+    </div>
+  </div>
+</nav>
+
+<div class="calc-container" id="calcContainer">
+        <table id="calcHeader">
             <tr>
                 <th colspan="4" id="calcTitle" style="text-align:center;">Scientific Mode</th>
             </tr>
@@ -70,6 +92,44 @@
                     </div>
                 </th>
             </tr>
+        </table>
+        <table style="display:none" id="bhaskaraTable" class="calc-keys">
+            <tr>
+                <td>
+                    <label for="a">a: </label>
+                    <input type="number" id="a" required>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="b">b: </label>
+                    <input type="number" id="b" required>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="c">c: </label>
+                    <input type="number" id="c" required>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    <form id="bhaskaraForm" style="display:flex; gap:8px; align-items:center;">
+                    <button id="calculateBtn" class="btn" type="submit">Calculate</button>
+                    </form>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">Result</th>
+                <td rowspan="2" style="vertical-align:top;">
+                    <div id="result"></div>
+                </td>
+            </tr>
+        </table>
+        <table style="display:block" id="calcTable" class="calc-keys">
+            <tr>
+                <th colspan="4" style="text-align:center;">Calculator</th>
+            </tr>
             <tr>
                 <td colspan="4" style="text-align:left;"></td>
             </tr>
@@ -78,68 +138,72 @@
                     <textarea name="input-value" id="inputValue"></textarea>
                 </td>
             </tr>
-            <tr id="tr1">
-                <td id="tr1_0" name="mod_1" type="btn" class="repeated-operators" data-value="%">%</td>
-                <td id="tr1_1" onclick="functionsSwitch()" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){functionsSwitch();}" name="2nd" type="btn" class="other-operators">2nd</td>
-                <td id="tr1_2" name="pi" type="btn" class="other-operators" data-value="π">π</td>
-                <td id="tr1_3" name="e" type="btn" class="other-operators">e</td>
-                <td id="tr1_4" name="ac" type="btn" class="operators" data-value="AC">AC</td>
-                <td id="tr1_5" name="del" type="btn" class="operators" data-value="DEL">C</td>
-                <td id="tr1_6" name="erase" type="btn" class="operators" data-value="ERASE">&#9003</td>
-            </tr>
-            <tr id="tr2">
-                <td id="tr2_0" name="sqr3" type="btn" class="operators" data-value="x^3">x³</td>
-                <td id="tr2_1" name="sqr2" type="btn" class="operators" data-value="x^2">x²</td>
-                <td id="tr2_2" name="oneDiv" type="btn" class="operators" data-value="1/x">1/x</td>
-                <td id="tr2_3" name="sqrt" type="btn" class="repeated-operators" data-value="√">√</td>
-                <td id="tr2_4" name="abs" type="btn" class="other-operators" data-value="abs()">|x|</td>
-                <td id="tr2_5" name="exp" type="btn" class="other-operators" data-value=",e+">exp</td>
-                <td id="tr2_6" name="mod_2" type="btn" class="repeated-operators" data-value="%">%</td>
-                <td id="tr2_7" name="div" type="btn" class="operators" data-value="/">/</td>
-            </tr>
-            <tr id="tr3">
-                <td id="tr3_0" name="sqrt3" type="btn" class="other-operators" data-value="∛">∛</td>
-                <td id="tr3_1" name="sqrt" type="btn" class="repeated-operators" data-value="√">√</td>
-                <td id="tr3_2" name="(" type="btn" class="other-operators" data-value="(">(</td>
-                <td id="tr3_3" name=")" type="btn" class="other-operators" data-value=")">)</td>
-                <td id="tr3_4" name="fact" type="btn" class="other-operators" data-value="n!">n!</td>
-                <td id="tr3_5" name="div" type="btn" class="operators" data-value="/">/</td>
-            </tr>
-            <tr id="tr4">
-                <td id="tr4_0" name="nsqrty" type="btn" class="other-operators" data-value="x√y">ⁿ√</td>
-                <td id="tr4_1" name="x_Pow_y" type="btn" class="other-operators" data-value="x^y">x^y</td>
-                <td id="tr4_2" name="n7" type="btn" class="numbers" data-value="7">7</td>
-                <td id="tr4_3" name="n8" type="btn" class="numbers" data-value="8">8</td>
-                <td id="tr4_4" name="n9" type="btn" class="numbers" data-value="9">9</td>
-                <td id="tr4_5" name="mult" type="btn" class="operators" data-value="*">*</td>
-            </tr>
-            <tr id="tr5">
-                <td id="tr5_0" name="2x" type="btn" class="other-operators">2^x</td>
-                <td id="tr5_1" name="10x" type="btn" class="other-operators">10^x</td>
-                <td id="tr5_2" name="n4" type="btn" class="numbers" data-value="4">4</td>
-                <td id="tr5_3" name="n5" type="btn" class="numbers" data-value="5">5</td>
-                <td id="tr5_4" name="n6" type="btn" class="numbers" data-value="6">6</td>
-                <td id="tr5_5" name="minus" type="btn" class="operators" data-value="-">-</td>
-            </tr>
-            <tr id="tr6">
-                <td id="tr6_0" name="logyX" type="btn" class="other-operators" data-value="logyX">logyX</td>
-                <td id="tr6_1" name="log" type="btn" class="other-operators">log</td>
-                <td id="tr6_2" name="n1" type="btn" class="numbers" data-value="1">1</td>
-                <td id="tr6_3" name="n2" type="btn" class="numbers" data-value="2">2</td>
-                <td id="tr6_4" name="n3" type="btn" class="numbers" data-value="3">3</td>
-                <td id="tr6_5" name="plus" type="btn" class="operators" data-value="+">+</td>
-            </tr>
-            <tr id="tr7">
-                <td id="tr7_0" name="e^x" type="btn" class="other-operators">e^x</td>
-                <td id="tr7_1" name="ln" type="btn" class="other-operators">ln</td>
-                <td id="tr7_2" name="sign" type="btn" class="operators" data-value="+/-">+/-</td>
-                <td id="tr7_3" name="zero" type="btn" class="numbers" data-value="0">0</td>
-                <td id="tr7_4" name="dot" type="btn" class="operators" data-value=".">.</td>
-                <td id="equal" type="btn" class="operators" data-value="=">=</td>
-            </tr>
+            <div id="dial">
+                <tr id="tr1">
+                    <td id="tr1_0" name="mod_1" type="btn" class="repeated-operators" data-value="%">%</td>
+                    <td id="tr1_1" onclick="functionsSwitch()" onkeydown="if(event.key==='Enter'||event.key===' '){functionsSwitch();}" tabindex="0" name="2nd" type="btn" class="other-operators">2<sup>nd</sup></td>
+                    <td id="tr1_2" name="pi" type="btn" class="other-operators" data-value="π">π</td>
+                    <td id="tr1_3" name="e" type="btn" class="other-operators">e</td>
+                    <td id="tr1_4" name="ac" type="btn" class="operators" data-value="AC">AC</td>
+                    <td id="tr1_5" name="del" type="btn" class="operators" data-value="DEL">C</td>
+                    <td id="tr1_6" name="erase" type="btn" class="operators" data-value="ERASE">&#9003</td>
+                </tr>
+                <tr id="tr2">
+                    <td id="tr2_0" name="sqr3" type="btn" class="operators" data-value="x^3">x³</td>
+                    <td id="tr2_1" name="sqr2" type="btn" class="operators" data-value="x^2">x²</td>
+                    <td id="tr2_2" name="oneDiv" type="btn" class="operators" data-value="1/x">1/x</td>
+                    <td id="tr2_3" name="sqrt" type="btn" class="repeated-operators" data-value="√">√</td>
+                    <td id="tr2_4" name="abs" type="btn" class="other-operators" data-value="abs()">|x|</td>
+                    <td id="tr2_5" name="exp" type="btn" class="other-operators" data-value=",e+">exp</td>
+                    <td id="tr2_6" name="mod_2" type="btn" class="repeated-operators" data-value="%">%</td>
+                    <td id="tr2_7" name="div" type="btn" class="operators" data-value="/">/</td>
+                </tr>
+                <tr id="tr3">
+                    <td id="tr3_0" name="sqrt3" type="btn" class="other-operators" data-value="∛">∛</td>
+                    <td id="tr3_1" name="sqrt" type="btn" class="repeated-operators" data-value="√">√</td>
+                    <td id="tr3_2" name="(" type="btn" class="other-operators" data-value="(">(</td>
+                    <td id="tr3_3" name=")" type="btn" class="other-operators" data-value=")">)</td>
+                    <td id="tr3_4" name="fact" type="btn" class="other-operators" data-value="n!">n!</td>
+                    <td id="tr3_5" name="div" type="btn" class="operators" data-value="/">/</td>
+                </tr>
+                <tr id="tr4">
+                    <td id="tr4_0" name="x_Pow_y" type="btn" class="other-operators" data-value="x√y">ⁿ√(n,x)</td>
+                    <td id="tr4_1" name="x_Pow_y" type="btn" class="other-operators" data-value="x^y">x^y</td>
+                    <td id="tr4_2" name="n7" type="btn" class="numbers" data-value="7">7</td>
+                    <td id="tr4_3" name="n8" type="btn" class="numbers" data-value="8">8</td>
+                    <td id="tr4_4" name="n9" type="btn" class="numbers" data-value="9">9</td>
+                    <td id="tr4_5" name="mult" type="btn" class="operators" data-value="*">*</td>
+                </tr>
+                <tr id="tr5">
+                    <td id="tr5_0" name="2x" type="btn" class="other-operators">2^x</td>
+                    <td id="tr5_1" name="10x" type="btn" class="other-operators">10^x</td>
+                    <td id="tr5_2" name="n4" type="btn" class="numbers" data-value="4">4</td>
+                    <td id="tr5_3" name="n5" type="btn" class="numbers" data-value="5">5</td>
+                    <td id="tr5_4" name="n6" type="btn" class="numbers" data-value="6">6</td>
+                    <td id="tr5_5" name="minus" type="btn" class="operators" data-value="-">-</td>
+                </tr>
+                <tr id="tr6">
+                    <td id="tr6_0" name="logyX" type="btn" class="other-operators" data-value="logyX" style="font-size:medium;">logyX(y,x)</td>
+                    <td id="tr6_1" name="log" type="btn" class="other-operators">log</td>
+                    <td id="tr6_2" name="n1" type="btn" class="numbers" data-value="1">1</td>
+                    <td id="tr6_3" name="n2" type="btn" class="numbers" data-value="2">2</td>
+                    <td id="tr6_4" name="n3" type="btn" class="numbers" data-value="3">3</td>
+                    <td id="tr6_5" name="plus" type="btn" class="operators" data-value="+">+</td>
+                </tr>
+                <tr id="tr7">
+                    <td id="tr7_0" name="e^x" type="btn" class="other-operators">e^x</td>
+                    <td id="tr7_1" name="ln" type="btn" class="other-operators">ln</td>
+                    <td id="tr7_2" name="sign" type="btn" class="operators" data-value="+/-">+/-</td>
+                    <td id="tr7_3" name="zero" type="btn" class="numbers" data-value="0">0</td>
+                    <td id="tr7_4" style="width:30px" name="dot" type="btn" class="operators" data-value=".">.</td>
+                    <td id="tr7_5" style="width:30px" name="comma" type="btn" class="operators" data-value=",">,</td>
+                    <td id="equal" type="btn" class="operators" data-value="=">=</td>
+                </tr>
+            </div>
         </table>
     </div>
     <script src="js/style.js"></script>
     <script type="text/javascript" src="js/calc.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
 </body>
 </html>

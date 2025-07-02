@@ -48,6 +48,27 @@ $(document).ready(function () {  // Warn if no .numbers exist
   }
 });
 
+// Function to switch between Bhaskara and Calculator
+function switchToBhaskara() {
+    if ($("#bhaskaraTable").css("display") === "none") {
+      $("#calcTable").hide();
+      $("#bhaskaraTable").show();
+      $("#modeSwitch").hide();
+      $("#calcTitle").text("Bhaskara Mode");
+      $("#bhaskaraBtn").text("Switch to Calculator Mode");
+    } else {
+      $("#calcTable").show();
+      $("#bhaskaraTable").hide();
+      $("#modeSwitch").show();
+      $("#bhaskaraBtn").text("Switch to Bhaskara Mode");
+      if ($("#tr1_1").css("display") === "none") {
+        $("#calcTitle").text("Simple Mode");
+      } else {
+        $("#calcTitle").text("Scientific Mode");
+      }
+    }
+}
+
 // Mode switcher
 function modeSwitch(forceSimple = false) {
   // Determine current and new mode
@@ -77,11 +98,6 @@ function modeSwitch(forceSimple = false) {
     $("#tr2_7").hide();
     $("#tr3_5").show();
   } else { // simple mode
-    if ($("#tr2_0").is(":visible")) {
-      console.log("tr2_0 is visible, hiding it now.");
-      $("#tr2_0").hide();
-      $("#tr2_1").show();
-    } else console.log("tr2_0 is not visible, showing it now.");
     $("#modeSwitch").text("Change to Scientific Mode");
     $("#calcTitle").text("Simple Mode");
     $(".other-operators").hide();
@@ -124,3 +140,4 @@ function menuOptions() {
         navLinks.style.display = 'none';
     }
 }
+
